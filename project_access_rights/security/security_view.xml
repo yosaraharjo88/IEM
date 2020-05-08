@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+
+<odoo>
+    <data>
+    	<delete id="project.group_project_user" model="res.groups"/>
+    	
+    	<record id="group_project_employee_cost" model="res.groups">
+	        <field name="name">View Project Employee Cost</field>
+	        <field name="category_id" ref="base.module_category_hidden"/>
+	    </record>
+	    
+	    <record id="group_manage_project_task_template" model="res.groups">
+	        <field name="name">Can Manage Project &amp; Task Template</field>
+	        <field name="category_id" ref="base.module_category_hidden"/>
+	    </record>
+	    
+	    <record id="group_create_project" model="res.groups">
+	        <field name="name">Can create new project</field>
+	        <field name="category_id" ref="base.module_category_hidden"/>
+	    </record>
+    
+    	<record id="project.group_project_manager" model="res.groups">
+	        <field name="name">Viewer</field>
+	        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+	        <field name="category_id" ref="base.module_category_project_management"/>
+	    </record>
+    
+	    <record id="group_project_admin" model="res.groups">
+	        <field name="name">Admin</field>
+	        <field name="implied_ids" eval="[(4, ref('project.group_project_manager'))]"/>
+	        <field name="category_id" ref="base.module_category_project_management"/>
+	    </record>
+
+        <record id="group_project_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="implied_ids" eval="[
+                (4, ref('group_project_admin')),
+            ]"/>
+            <field name="category_id" ref="base.module_category_project_management"/>
+        </record>
+        
+        <record id="group_project_executive" model="res.groups">
+            <field name="name">Executive</field>
+            <field name="implied_ids" eval="[
+                (4, ref('group_project_user')),
+            ]"/>
+            <field name="category_id" ref="base.module_category_project_management"/>
+        </record>
+        
+        <record id="group_project_director" model="res.groups">
+            <field name="name">Director</field>
+            <field name="implied_ids" eval="[
+                (4, ref('group_project_executive')),
+            ]"/>
+            <field name="category_id" ref="base.module_category_project_management"/>
+        </record>
+        
+        <record id="access_right_group_project_user" model="access.rights.group">
+            <field name="name">User</field>
+            <field name="group_ids" eval="[
+            (4, ref('base.group_user')),
+            (4, ref('group_project_user')),
+            ]"/>
+        </record>
+        
+        <record id="access_right_group_project_admin" model="access.rights.group">
+            <field name="name">Admin</field>
+            <field name="group_ids" eval="[
+            (4, ref('base.group_user')),
+            (4, ref('group_project_admin')),
+            ]"/>
+        </record>
+        
+        <record id="access_right_group_project_viewer" model="access.rights.group">
+            <field name="name">Viewer</field>
+            <field name="group_ids" eval="[
+            (4, ref('base.group_user')),
+            (4, ref('project.group_project_manager')),
+            ]"/>
+        </record>
+        
+        <record id="access_right_group_project_executive" model="access.rights.group">
+            <field name="name">Executive</field>
+            <field name="group_ids" eval="[
+            (4, ref('base.group_user')),
+            (4, ref('group_project_executive')),
+            ]"/>
+        </record>
+        
+        <record id="access_right_group_project_director" model="access.rights.group">
+            <field name="name">Director</field>
+            <field name="group_ids" eval="[
+            (4, ref('base.group_user')),
+            (4, ref('group_project_director')),
+            ]"/>
+        </record>
+        
+        
+<!--         <record id="project_rule_user" model="ir.rule"> -->
+<!-- 	        <field name="name">Project User Rule</field> -->
+<!-- 	        <field name="model_id" ref="project.model_project_project"/> -->
+<!-- 	        <field name="global" eval="True"/> -->
+<!-- 	        <field name="active" eval="True"/> -->
+<!-- 	        <field name="domain_force">[('user_ids','in',user.id)]</field> -->
+<!-- 	        <field name="groups" eval="[(4, ref('group_project_user')),(4, ref('project.group_project_manager')),(4, ref('group_project_executive'))]"/> -->
+<!--         </record> -->
+        
+        <record id="project_rule_manager" model="ir.rule">
+	        <field name="name">Project Manager Rule</field>
+	        <field name="model_id" ref="project.model_project_project"/>
+	        <field name="global" eval="True"/>
+	        <field name="active" eval="True"/>
+	        <field name="domain_force">[(1, '=', 1)]</field>
+	        <field name="groups" eval="[(4, ref('group_project_admin')),(4, ref('group_project_director'))]"/>
+        </record>
+        
+        <record model="ir.rule" id="project.project_project_manager_rule">
+        	<field name="active" eval="False"/>
+	    </record>
+	
+	    <record model="ir.rule" id="project.project_public_members_rule">
+	    	<field name="active" eval="False"/>
+	    </record>
+	    
+<!-- 	    <record id="project_task_rule_user" model="ir.rule"> -->
+<!-- 	        <field name="name">Project Task User Rule</field> -->
+<!-- 	        <field name="model_id" ref="project.model_project_task"/> -->
+<!-- 	        <field name="global" eval="True"/> -->
+<!-- 	        <field name="active" eval="True"/> -->
+<!-- 	        <field name="domain_force">[('user_ids','in',user.id)]</field> -->
+<!-- 	        <field name="groups" eval="[(4, ref('group_project_user')),(4, ref('project.group_project_manager')),(4, ref('group_project_executive'))]"/> -->
+<!--         </record> -->
+        
+        <record id="project_task_rule_manager" model="ir.rule">
+	        <field name="name">Project Task Manager Rule</field>
+	        <field name="model_id" ref="project.model_project_task"/>
+	        <field name="global" eval="True"/>
+	        <field name="active" eval="True"/>
+	        <field name="domain_force">[(1, '=', 1)]</field>
+	        <field name="groups" eval="[(4, ref('group_project_admin')),(4, ref('group_project_director'))]"/>
+        </record>
+        
+        <record model="ir.rule" id="project.task_visibility_rule">
+        	<field name="active" eval="False"/>
+	    </record>
+	
+	    <record model="ir.rule" id="project.project_manager_all_project_tasks_rule">
+	    	<field name="active" eval="False"/>
+	    </record>
+	        
+    </data>
+</odoo>

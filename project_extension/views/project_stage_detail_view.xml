@@ -1,0 +1,23 @@
+    <odoo>
+    <data>
+        <record id="view_task_inherit_form2" model="ir.ui.view">
+            <field name="name">view.task.inherit.form2</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='toggle_active']" position="before">
+                    <button  class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-files-o">
+                        <field string="Attachments" name="doc_count" 
+                            widget="statinfo"/>
+                    </button>
+                </xpath>
+                <xpath expr="//field[@name='project_id']" position='after'>
+                    <field name='stage_id' required="1"/>
+                </xpath>
+                <xpath expr="//div[@class='oe_title']" position="before">
+                    <field name="sequence_id" readonly="True"/>
+                </xpath>
+            </field>
+        </record>
+     </data>
+</odoo>

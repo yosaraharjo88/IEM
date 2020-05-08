@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--Tree view-->
+        <record model="ir.ui.view" id="project_scope_tree_view">
+            <field name="name">project.scope.tree</field>
+            <field name="model">project.scope</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="project_details_id" invisible="1"/>
+                    <field name="project_scope_name" required="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--Action-->
+        <record model="ir.actions.act_window" id="project_scope_action">
+            <field name="name">Project Scope</field>
+            <field name="res_model">project.scope</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+  </data>
+</odoo>

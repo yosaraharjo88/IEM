@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="task_type_inherit_tree" model="ir.ui.view">
+            <field name="name">task.type.inherit.tree</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='description']" position='after'>
+                    <field name="project_ids"/>
+                </xpath>
+            </field>
+        </record>
+     </data>
+</odoo>

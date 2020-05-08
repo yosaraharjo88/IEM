@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="project_task_sequence" model="ir.sequence">
+        <field name="name">Project Task Sequence</field>
+        <field name="code">project.task</field>
+        <field name="prefix">TSK/%(y)s%(month)s%(day)s</field>
+        <field name="padding">2</field>
+        <field eval="False" name="company_id"/>
+    </record>
+
+    <record id="project_sequence" model="ir.sequence">
+        <field name="name">Project Sequence</field>
+        <field name="code">project.project</field>
+        <field name="prefix">PRO/%(y)s%(month)s%(day)s</field>
+        <field name="padding">2</field>
+        <field eval="False" name="company_id"/>
+    </record>
+
+</odoo> 

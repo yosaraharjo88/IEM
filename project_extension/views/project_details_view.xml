@@ -1,0 +1,62 @@
+<odoo>
+  <data>
+
+      <!--Tree view of project details-->
+<!--      <record model="ir.ui.view" id="project_details_tree_view">-->
+<!--          <field name="name">project.details.tree</field>-->
+<!--          <field name="model">project.details</field>-->
+<!--          <field name="arch" type="xml">-->
+<!--              <tree>-->
+<!--                  <field name="project_id"/>-->
+<!--                  <field name="project_duration"/>-->
+<!--                  <field name="project_start_date"/>-->
+<!--                  <field name="project_end_date"/>-->
+<!--              </tree>-->
+<!--          </field>-->
+<!--      </record>-->
+
+      <!--Form view of project details-->
+      <record model="ir.ui.view" id="project_details_form_view">
+          <field name="name">project.details.form</field>
+          <field name="model">project.details</field>
+          <field name="arch" type="xml">
+              <form>
+                  <sheet>
+                      <group string="Project Details" name="project_details">
+                          <group>
+                              <field name="project_id" context="{'project_id':active_id}"/>
+<!--                              <field name="project_duration"/>-->
+                          </group>
+<!--                          <group>-->
+<!--                              <field name="project_start_date"/>-->
+<!--                              <field name="project_end_date"/>-->
+<!--                          </group>-->
+                      </group>
+<!--                      <group name="description" string="Description">-->
+<!--                          <field name="description" nolabel="1"/>-->
+<!--                      </group>-->
+                      <notebook>
+<!--                          <page name="project_scope" string="Project Scope">-->
+<!--                              <field name="project_scope_ids"/>-->
+<!--                          </page>-->
+<!--                          <page name="project_team" string="Project Team">-->
+<!--                              <field name="project_team_ids"/>-->
+<!--                          </page>-->
+<!--                          <page name="project_documents" string="Project Documents">-->
+<!--                              <field name="project_documents_ids"/>-->
+<!--                          </page>-->
+                      </notebook>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+      <!--Action for project details-->
+      <record model="ir.actions.act_window" id="project_details_action">
+          <field name="name">Project Details</field>
+          <field name="res_model">project.details</field>
+          <field name="view_mode">tree,form</field>
+      </record>
+
+  </data>
+</odoo>

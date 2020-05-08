@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_employee_cost_list_report,access_project_employee_cost_list_report,model_project_employee_cost_list_report,,1,1,1,1
+access_project_employee_manhours_report,access_project_employee_manhours_report,model_project_employee_manhours_report,,1,1,1,1
+access_res_users_project_child,access_res_users_project_child,model_res_users_project_child,,1,1,1,1

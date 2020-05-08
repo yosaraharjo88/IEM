@@ -1,0 +1,75 @@
+<odoo>
+    <data>
+
+        <record id="view_project_kanban_inherit" model="ir.ui.view">
+            <field name="name">project.project.kanban.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="project_number"/>
+                </field>
+                <xpath expr="//div[@class='o_primary']/span/t" position="before">
+                    <t t-esc="record.project_number.value"/> <t t-if="record.project_number.value"> - </t>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_project_tree_inherit" model="ir.ui.view">
+            <field name="name">project.project.tree.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project"/>
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="project_number"/>
+                </field>
+            </field>
+        </record>
+        
+        <record id="inherit_edit_project" model="ir.ui.view">
+            <field name="name">project.project.form.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="project_number" class="oe_inline" placeholder="Project No."/>
+                     <span attrs="{'invisible':[('project_number', '=', False)]}"> - </span>
+                </field>
+            </field>
+        </record>
+
+        <record id="project_project_view_form_simplified_inherit" model="ir.ui.view">
+            <field name="name">project.project.view.form.simplified.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="project_number"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="project_task_type_form_inherit" model="ir.ui.view">
+            <field name="name">project.task.type.form.inherit</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_edit"/>
+            <field name="arch" type="xml">
+                <field name="sequence" position="before">
+                    <field name="budgeted_stage_cost"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="project_task_type_tree_inherit" model="ir.ui.view">
+            <field name="name">project.task.type.tree.inherit</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="budgeted_stage_cost"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

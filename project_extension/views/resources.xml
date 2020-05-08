@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <template id="project_extension_stages_modification" name="project_extension assets"
+                  inherit_id="web.assets_backend">
+            <xpath expr="//script[last()]" position="after">
+                <script type="text/javascript" src="/project_extension/static/src/js/kanban_column_modification.js"></script>
+                <script type="text/javascript" src="/project_extension/static/src/js/kanban_button.js"></script>
+            </xpath>
+        </template>
+    </data>
+</odoo>

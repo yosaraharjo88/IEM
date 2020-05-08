@@ -1,0 +1,32 @@
+<odoo>
+	
+	<record id="project_task_form_inherit_PEPA" model="ir.ui.view">
+		<field name="name">project.task.form.inherit.PEPA</field>
+		<field name="model">project.task</field>
+		<field name="inherit_id" ref="project.view_task_form2" />
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='spentover_hours']" position="after">
+				<field name="leftover_val" invisible="1" />
+				<field name="related_leftover" invisible="1" />
+				<field name="spentover_val" invisible="1" />
+				<field name="related_spentover" invisible="1" />
+				<field name="rate_val" invisible="1" />
+				<field name="related_rate" invisible="1" />
+			</xpath>
+		</field>
+	</record>
+
+	<record id="hr_timesheet_sheet_form_inherit_report" model="ir.ui.view">
+		<field name="name">hr.timesheet.sheet.form.inherit</field>
+		<field name="model">hr_timesheet_sheet.sheet</field>
+		<field name="inherit_id" ref="hr_timesheet_sheet.hr_timesheet_sheet_form" />
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='name']" position="after">
+				<field name="log_id1" invisible="1" />
+				<field name="group_viewer" invisible="1" />
+				<field name="group_user" invisible="1" />
+			</xpath>
+		</field>
+	</record>
+
+</odoo>

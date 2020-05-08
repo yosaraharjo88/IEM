@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="hr_timesheet_sheet_form_inherit_IEM" model="ir.ui.view">
+		<field name="name">hr_timesheet_sheet.sheet.form.inherit</field>
+		<field name="model">hr_timesheet_sheet.sheet</field>
+		<field name="inherit_id" ref="hr_timesheet_sheet.hr_timesheet_sheet_form" />
+		<field name="arch" type="xml">
+			<field name="date_to" position="attributes">
+				<attribute name="readonly">1</attribute>
+			</field>
+			<xpath
+				expr="//page[@class='o_hr_timesheet_sheet_details']/field[@name='timesheet_ids']/tree/field[@name='name']"
+				position="attributes">
+				<attribute name="required">0</attribute>
+			</xpath>
+			<xpath expr="//page[3]" position="after">
+				<page string="Leave">
+					<field name="leave_ids" nolabel="1">
+						<tree editable="bottom" string="Leave">
+							<field name="date" />
+							<field name="description" />
+							<field name="leave_hours" widget="float_time" sum="leave_hours" />
+							<field name="sheet_id" invisible="1" />
+						</tree>
+
+					</field>
+				</page>
+			</xpath>
+		</field>
+
+	</record>
+	<record id="hr_timesheet_sheet_form_inherit_IEM_all" model="ir.ui.view">
+		<field name="name">hr_timesheet_sheet.sheet.form.inherit.all</field>
+		<field name="model">hr_timesheet_sheet.sheet</field>
+		<field name="inherit_id"
+			ref="std_timesheet_access_rights.hr_all_timesheet_sheet_form" />
+		<field name="arch" type="xml">
+			<field name="date_to" position="attributes">
+				<attribute name="readonly">1</attribute>
+			</field>
+			<xpath expr="//page[2]" position="after">
+				<page string="Leave">
+					<field name="leave_ids" nolabel="1">
+						<tree editable="bottom" string="Leave">
+							<field name="date" />
+							<field name="description" />
+							<field name="leave_hours" widget="float_time" sum="leave_hours" />
+							<field name="sheet_id" invisible="1" />
+						</tree>
+
+					</field>
+				</page>
+			</xpath>
+		</field>
+	</record>
+
+</odoo>

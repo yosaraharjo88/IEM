@@ -1,0 +1,195 @@
+# -*- coding: utf-8 -*-
+
+from datetime import datetime
+from datetime import timedelta
+
+from odoo import api, fields, models
+
+
+class ProjectProjectInherit(models.Model):
+    _inherit = 'project.project'
+
+    project_stage_ids = fields.One2many('project.stage.project', 'project_id', string="Stage")
+    project_duration = fields.Integer(string="Days")
+    project_start_date = fields.Datetime(string="Project Start Date")
+    project_end_date = fields.Datetime(string="Project End Date")
+    description = fields.Text(string="Description")
+    project_scope_ids = fields.One2many('project.scope', 'project_details_id', string="Project Scope")
+    project_team_ids = fields.One2many('project.team', 'project_details_id', string="Project Team")
+    project_documents_ids = fields.One2many('project.documents', 'project_details_id', string="Project Documents")
+    milestone_ids = fields.One2many('project.milestone', 'milestone_id', string="Milestone")
+    state_project = fields.Selection([
+        ('draft', 'Draft'),
+        ('progress', 'On Progress'),
+        ('done', 'Completed'),
+    ], default='draft')
+    state_stages_draft = fields.Boolean(compute='check_stages_draft')
+    milestone_status_ids = fields.Many2many('project.milestone.status', string="Milestone Status")
+    max_value = fields.Float(string="Max For Project Completion", default=100.00)
+    project_completion = fields.Float(string="Project Completion", compute='compute_project_completion')
+    
+  
+    def _get_type_common(self):
+        for rec in self:
+
+            type_ids = self.env['project.task.type'].search([('project_ids','in',[rec.id])])
+        return type_ids
+
+    @api.multi
+    def get_stages_from_type(self):
+        for rec in self:
+            stage_list = [] 
+            unwanted_list = []
+            for stage in rec.project_stage_ids:
+                stage_list.append(stage.type_id.id)
+                if stage.type_id.id not in rec.type_ids.ids:
+                    unwanted_list.append(stage)
+            append_list = []
+            for ty in rec.type_ids:
+                if ty.id not in stage_list:
+                    append_list.append((0,0,{'type_id':ty.id}))
+            if append_list:
+                rec.project_stage_ids = append_list
+
+            for op in unwanted_list:
+                op.unlink()
+
+
+    type_ids = fields.Many2many(
+        comodel_name='project.task.type', relation='project_task_type_rel',
+        column1='project_id', column2='type_id', string='Tasks Stages',
+        default=_get_type_common
+    )
+
+    @api.multi
+    def compute_project_completion(self):
+        cal = 0.0
+        grand = 0.0
+        for rec in self:
+            for line in rec.task_ids:
+                grand = (line.planned_progress * (line.progress_completion / 100))
+                cal = cal + grand
+                rec.project_completion = cal
+        return
+
+    @api.multi
+    def check_stages_draft(self):
+        # search all task
+        all_stages = self.env['project.task.type'].search([])
+        # search task which in draft
+        stages_draft = self.env['project.task.type'].search([('status_stage', '=', 'draft')])
+        stages_done = self.env["project.task.type"].search([('status_stage', '=', 'done')])
+        if len(all_stages.ids) == len(stages_draft.ids):
+            self.write({
+                'state_project': 'draft',
+            })
+            return True
+
+        if len(stages_done.ids) == len(all_stages.ids):
+            self.write({
+                'state_project': 'done',
+            })
+            return True
+
+        # else:
+        #     self.write({
+        #         'state_project': 'draft',
+        #     })
+        #     return True
+
+    @api.onchange('project_duration', 'project_start_date')
+    def set_date_deadline(self):
+        if self.project_duration and self.project_start_date == True:
+            dt = datetime.strptime(self.project_start_date, "%Y-%m-%d %H:%M:%S")
+            final_dt = dt + timedelta(days=self.project_duration)
+            self.project_end_date = final_dt
+        if self.project_start_date:
+            dt = datetime.strptime(self.project_start_date, "%Y-%m-%d %H:%M:%S")
+            final_dt = dt + timedelta(days=self.project_duration)
+            self.project_end_date = final_dt
+
+class ProjectMilestone(models.Model):
+    _name = "project.milestone"
+    _order = 'sequence asc'
+
+
+    milestone_id = fields.Many2one('project.project', string="Milestone")
+    sequence = fields.Integer('sequence', help="Sequence for the handle.",default=10)
+    milestone_no = fields.Char(string='Reference Number', copy=False)
+    milestone_name = fields.Char(string="Milestone Name", required=True)
+    milestone_description = fields.Text(string="Milestone Description")
+    deliverable = fields.Text(string="Deliverables")
+    expected_date = fields.Date(string="Expected Date")
+    tolerance_days = fields.Integer(string="Tolerance Days")
+    archived_date = fields.Date(string="Archived Date")
+    variance_days = fields.Integer(string="Variance Days")
+    status = fields.Many2one('project.milestone.status', string="Status")
+
+    def default_get(self, context=None):
+        res = {}
+        if self._context:
+            context_keys = self._context.keys()
+            next_sequence = 1
+            if 'milestone_ids' in context_keys:
+                if len(self._context.get('milestone_ids')) > 0:
+                    next_sequence = len(self._context.get('milestone_ids')) + 1
+            res.update({'milestone_no': next_sequence})
+        return res
+
+
+class ProjectDocuments(models.Model):
+    _name = 'project.documents'
+    _rec_name = 'document_name'
+
+    date = fields.Datetime(string="Date", default=datetime.now())
+    document_name = fields.Char(string="Document Name")
+    document_type = fields.Char(string="Document Type")
+    document_size = fields.Char(string="Document Size")
+    project_details_id = fields.Many2one('project.project', string="Project Details")
+
+
+class ProjectTeam(models.Model):
+    _name = 'project.team'
+    _rec_name = 'role'
+
+    role = fields.Char(string="Role")
+    name = fields.Char(string="Name")
+    project_details_id = fields.Many2one('project.project', string="Project Details")
+
+
+class ProjectScope(models.Model):
+    _name = 'project.scope'
+    _rec_name = 'project_scope_name'
+
+    project_scope_name = fields.Char(string="Project Scope Name")
+    project_details_id = fields.Many2one('project.project', string="Project Details")
+
+
+class ProjectStageProject(models.Model):
+    _name = 'project.stage.project'
+
+    def _get_default_stage_id(self):
+        """ Gives default stage_id """
+        project_id = self.env.context.get('default_project_id')
+        if not project_id:
+            return False
+        return self.stage_find(project_id, [('fold', '=', False)])
+
+    project_id = fields.Many2one('project.project', string="Project")
+    type_id = fields.Many2one('project.task.type', string='Stage')
+    stage_weightage = fields.Float(string="Stage Weightage", store=True)
+    stage_completion = fields.Float(string="Stage Completion")
+
+
+    @api.model
+    def create(self, vals):
+        res = super(ProjectStageProject, self).create(vals)
+        # type_search = self.search([('project_id','=',res.project_id.id), ('type_id','=',res.type_id.id)])
+        # if    type_search:
+        #     type_search.unlink()
+        #     raise UserError(_('Duplicate records cannot be created'))
+        if res.project_id.id not in res.type_id.project_ids.ids:
+            res.type_id.write({
+                'project_ids': [(4, res.project_id.ids)],
+            })
+        return res

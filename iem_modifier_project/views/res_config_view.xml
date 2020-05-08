@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+
+        <record id="view_config_settings_inherit" model="ir.ui.view">
+            <field name="name">project settings</field>
+            <field name="model">project.config.settings</field>
+            <field name="inherit_id" ref="project.view_config_settings"/>
+            <field name="arch" type="xml">
+                <field name="module_rating_project" position="after">
+                    <field name="minimum_hr_day" widget="float_time"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

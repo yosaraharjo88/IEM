@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+    <t t-name="ProjectProgressGraphView">
+
+        <div id="project_progress_graph_bg_color">
+
+        </div>
+
+    </t>
+
+    <t t-name="ProjectProgressGraphView.main">
+        <div class="projectprogressgraph-container">
+        </div>
+    </t>
+
+    <t t-name="ProjectProgressGraphView.buttons">
+        <div class="btn-group btn-group-sm" style="width: auto;">
+            <select id='selUser' style="width: auto;">
+                    <option id="option_project" value="0">-- Select Project --</option>
+            </select>
+        </div>
+        <div class="btn-group btn-group-sm">
+            <input class="btn btn-primary btn-sm" value="Select Project" type="button" id='but_read'/>
+        </div>
+    </t>
+
+</templates>

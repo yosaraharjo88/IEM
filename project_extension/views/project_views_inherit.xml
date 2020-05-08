@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+        <record id="project_kanban_view_inherit" model="ir.ui.view">
+            <field name="name">project.kanban.view.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="max_value" invisible="1"/>
+                    <field name="project_completion" widget="progress"/>
+                </field>
+
+                <xpath expr="//div[@class='o_kanban_primary_left']" position="inside">
+                    <br/>
+                    <div>
+                        <field name="max_value" invisible="1"/>
+                        <field name="project_completion" widget="progress"
+                               options="{'current_value': 'project_completion', 'max_value': 'max_value', 'editable': false}"/>
+                    </div>
+                </xpath>
+
+
+            </field>
+        </record>
+
+        <record id="project.view_project_task_pivot" model="ir.ui.view">
+            <field name="name">project.task.pivot</field>
+            <field name="model">project.task</field>
+            <field name="arch" type="xml">
+                <pivot string="Project Tasks">
+                    <field name="project_id" type="row"/>
+                    <field name="stage_id" type="col"/>
+                </pivot>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="report_pivot_new_view" model="ir.ui.view">
+		<field name="name">report.pivot.new.view</field>
+		<field name="model">pivot.report.new</field>
+		<field name="arch" type="xml">
+			<pivot string="Project Employee Manhours">
+				<field name="employee_id" type="row" />
+
+				<field name="project_id" type="row" />
+				<field name="project_task" type="row" />
+				<field name="plan_hours" type="measure" />
+				<field name="actual_hours" type="measure" />
+				<field name="leftover_hours" type="measure" />
+				<field name="spentover_hours" type="measure" />
+				<field name="user_id" invisible="1" />
+			</pivot>
+		</field>
+	</record>
+	<record id="report_pivot_new_search" model="ir.ui.view">
+		<field name="name">report.pivot.new.search</field>
+		<field name="model">pivot.report.new</field>
+		<field name="arch" type="xml">
+			<search string="Project Employee Manhours">
+				<group expand="0" string="Group By">
+					<filter string="Employee" domain="[]"
+						context="{'group_by':'employee_id'}" />
+					<filter string="Project" domain="[]" context="{'group_by':'project_id'}" />
+					<filter string="Project Task" domain="[]"
+						context="{'group_by':'project_task'}" />
+				</group>
+			</search>
+		</field>
+	</record>
+	<!-- Project Employee Cost -->
+	<record id="report_project_employee_cost_view" model="ir.ui.view">
+		<field name="name">report.project.employee.cost.view</field>
+		<field name="model">project.employee.cost.report</field>
+		<field name="arch" type="xml">
+			<pivot string="Project Employee Cost">
+				<field name="employee_id" type="row" />
+				<field name="project_id" type="row" />
+				<field name="project_task" type="row" />
+				<field name="date" type="row" />
+				<field name="plan_hours" type="measure" />
+				<field name="actual_hours" type="measure" />
+				<field name="leftover_hours" type="measure" />
+				<field name="spentover_hours" type="measure" />
+				<field name="cost" type="measure" />
+				<field name="spent_value" type="measure" />
+				<field name="user_id" invisible="1" />
+			</pivot>
+		</field>
+	</record>
+	<record id="report_project_employee_cost_search" model="ir.ui.view">
+		<field name="name">report.project.employee.cost.search</field>
+		<field name="model">project.employee.cost.report</field>
+		<field name="arch" type="xml">
+			<search string="Project Employee Cost">
+				<group expand="0" string="Group By">
+					<filter string="Employee" domain="[]"
+						context="{'group_by':'employee_id'}" />
+					<filter string="Project" domain="[]" context="{'group_by':'project_id'}" />
+					<filter string="Project Task" domain="[]"
+						context="{'group_by':'project_task'}" />
+
+				</group>
+			</search>
+		</field>
+	</record>
+	<record id="action_project_task_navigation" model="ir.actions.act_window">
+		<field name="name">Project Employee Manhours</field>
+		<field name="res_model">pivot.report.new</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">pivot</field>
+		<field name="search_view_id" ref="report_pivot_new_search" />
+		<field name="context">{'group_by':'employee_id'}</field>
+		<!-- <field name="domain">[('user_id','=',uid),('user_id.groups_id','=','project.group_project_manager')] 
+		</field> -->
+
+	</record>
+	<!-- Action Project Employee Cost -->
+	<record id="action_project_employee_cost_navigation" model="ir.actions.act_window">
+		<field name="name">Project Employee Cost</field>
+		<field name="res_model">project.employee.cost.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">pivot</field>
+		<field name="search_view_id" ref="report_project_employee_cost_search" />
+		<field name="context">{'group_by':'employee_id'}</field>
+	</record>
+
+	<menuitem id="project_report_navigation_menu" name="Project Employee Manhours"
+		groups="project_access_rights.group_project_executive,project_access_rights.group_project_director"
+		action="action_project_task_navigation" parent="project.menu_project_report"
+		sequence="10" />
+
+	<!-- Menu Project Employee Cost -->
+
+	<menuitem id="project_employee_cost_report_navigation_menu" 
+	groups="project_access_rights.group_project_executive,project_access_rights.group_project_director,project_access_rights.group_project_employee_cost"
+name="Project Employee Cost" action="action_project_employee_cost_navigation"
+		parent="project.menu_project_report" sequence="11" />
+
+
+
+
+</odoo>

@@ -1,0 +1,201 @@
+<odoo>
+    <data>
+        <record id="add_fields_project_issue_form_view" model="ir.ui.view">
+            <field name="name">project.issue.inherit</field>
+            <field name="model">project.issue</field>
+            <field name="inherit_id" ref="project_issue.project_issue_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/div[@class='oe_title']" position="after">
+                    <br/>
+                    <div class="oe_title">
+                        <field name="image" widget="image" class="oe_avatar" invisible="1"/>
+                    </div>
+                </xpath>
+                <!-- hide fields -->
+                <xpath expr="//form/sheet/group/group/field[@name='user_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/group/group[2]/field[@name='partner_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/group/group[2]/field[@name='email_from']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/group/group[2]/field[@name='project_id']" position="replace"/>
+                
+                <xpath expr="//form/sheet/group/group[2]/field[@name='task_id']" position="replace"/>
+                <!-- change fields position -->       
+                <xpath expr="//form/sheet/group/group/field[@name='user_id']" position="after">
+                    <field name="project_id" context="{'default_use_issues':1}" groups="base.group_user"/>
+                    <field name="task_id" groups="base.group_user" context="{'default_project_id':project_id}"/>
+                </xpath>
+                <!-- priority field -->
+                <xpath expr="//form/sheet/group/group/field[@name='priority']" position="attributes">
+                    <attribute name="widget">selection</attribute>
+                </xpath>         
+                <!-- add fields -->
+                <xpath expr="//form/sheet/group/group[2]" position="inside">
+                    <field name="issue_found_date"/>
+                    <field name="issue_solved_date"/>
+                </xpath>
+                <!-- states -->
+                <xpath expr="//form/header/field[@name='stage_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>    
+                </xpath>
+                <xpath expr="//form/header" position="inside">
+                    <button name="btn_on_progress" states="found,done,cancel" string="On Progress" type="object" class="btn-primary"/>
+				    <button name="btn_done" states="on_progress" string="Done" type="object" class="btn-primary"/>
+				    <button name="btn_cancle" states="found,on_progress,done,cancel" string="Cancel" type="object" class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="found,on_progress,done,cancel"/>
+                </xpath>
+                
+                                <xpath expr="//form/sheet/notebook/page[1]" position="after">
+                    <page name="Attachment" string="Attachment">
+                        <field name="image_lines" mode="tree" string="Attachment" class="oe_avatar" context="{'default_project_id': project_id, 'default_task_id': task_id}">
+                            <tree string="Attachment" editable="bottom">
+                                <!--field name="id"/-->
+                                <field name="datas"  filename="name" />
+                                <field name="name" invisible="1" />
+
+                                <field name="type_id"/>
+                                <field name="date_create"/>
+                                <!--field name="create_date"/-->
+                                <field name="description"/>
+                            </tree>
+                        </field>
+                        <!--field name="image_lines" mode="tree,kanban" string="Attach a Image" class="oe_avatar">
+                            <kanban>
+                                <field name="id"/>
+                                <field name="mimetype"/>
+                                <field name="type"/>
+                                <field name="datas_fname"/>
+                                <field name="name"/>
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div class="oe_kanban_global_click">
+                                            <a t-if="!read_only_mode" type="delete" class="fa fa-times pull-right"/>
+                                            <div class="oe_kanban_vignette">
+                                                <div class="oe_attachment">
+                                                    <div class="oe_name">
+                                                        <field name="name"/>
+                                                    </div>
+                                                    <div t-if="record.type.raw_value == 'binary'">
+                                                        <a t-attf-href="/web/content/#{record.id.value}?download=1">
+                                                            <t t-set="webimage" t-value="new RegExp('image.*(gif|jpeg|jpg|png)').test(record.mimetype.value)"/>
+                                                            <div t-if="!webimage" class="o_image" t-att-data-mimetype="record.mimetype.value"/>
+                                                            <div t-if="webimage" class="o_kanban_attachment_image">
+                                                                <img t-attf-src="/web/image/#{record.id.value}?download=1"/>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field-->
+                        <!--widget="many2many_kanban" many2many_binary-->
+                    </page>
+                </xpath>
+                
+            </field>
+        </record>
+        
+        
+        <record id="project_issue.act_project_project_2_project_issue_all" model="ir.actions.act_window">
+            <field name="res_model">project.issue</field>
+            <field name="view_type">form</field>
+            <field name="name">Issues</field>
+            <field name="view_mode">tree,form,calendar,graph,pivot</field>
+            <!-- kanban-->
+            <!-- <field name="context">{'search_default_project_id': [active_id],'default_project_id': active_id, 
+            'search_default_task_id': [active_id],'default_task_id': active_id,}
+            </field> -->
+            <field name="context">{
+                    'search_default_project_id': [active_id],
+                    'default_project_id':active_id,
+                    'default_use_issues':1}
+            </field>
+            <field name="search_view_id" ref="project_issue.view_project_issue_filter"/>
+            <field name="help" type="html">
+                <p>
+                    The Odoo issues tracker allows you to efficiently manage things
+                    like internal requests, software development bugs, customer
+                    complaints, project troubles, material breakdowns, etc.
+                </p>
+            </field>
+        </record>
+        
+        <record id="add_field_project_issue_tree_view" model="ir.ui.view">
+            <field name="name">project.issue.inherit</field>
+            <field name="model">project.issue</field>
+            <field name="inherit_id" ref="project_issue.project_issue_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='stage_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+               	<xpath expr="//tree/field[@name='partner_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                
+                <xpath expr="//tree/field[@name='stage_id']" position="after">  
+                    <field name="state" string="stage"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Project -->
+        <record id="project_project_add_current_task_field" model="ir.ui.view">
+            <field name="name">project.current.task.field</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project_issue.view_project_form_inherited"/>
+            <field name="arch" type="xml">
+			<xpath expr="//field[@name='name']" position="after">
+                   <field name="project_current_task_id" invisible="1"/>
+              </xpath>
+        	</field>
+       	</record>
+
+ 
+     <record id="project_issue.view_project_form_inherited" model="ir.ui.view">
+        <field name="name">project.project.form.inherited</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="priority">16</field>
+        <field name="arch" type="xml">
+            <div name="options_active" position="attributes">
+                <attribute name="class"></attribute>
+            </div>
+            <xpath expr='//div[@name="options_active"]' position='inside'>
+                <div>
+                    <field name="use_issues" class="oe_inline"/>
+                    <label for="use_issues" class="oe_inline" string="Issues"/>
+                    <span attrs="{'invisible':[('use_issues', '=', False)]}">as </span>
+                    <field name="label_issues" class="oe_inline oe_input_align" attrs="{'invisible': [('use_issues', '=', False)]}"/>
+                </div>
+            </xpath>
+            <button name="toggle_active" position="before">
+                <button class="oe_stat_button" type="action" attrs="{'invisible':[('use_issues','=', False)]}"
+                    name="%(project_issue.act_project_project_2_project_issue_all)d" context="{'project_current_task_id':project_current_task_id}" icon="fa-bug">
+                    <field string="Issues" name="issue_count" widget="statinfo" options="{'label_field': 'label_issues'}"/>
+                </button>
+            </button>
+        </field>
+   </record>
+ 
+ 
+        <!-- Task -->
+        <record id="project_task_add_context" model="ir.ui.view">
+            <field name="name">project.task.add.context</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+			<xpath expr="//field[@name='project_id']" position="attributes">
+                   <attribute name="context">{'default_use_tasks':1, 'default_project_current_task_id':active_id}</attribute>
+              </xpath>
+        	</field>
+       	</record>
+        
+    </data>
+</odoo>

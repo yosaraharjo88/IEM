@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_task_progress_history_all,access_project_task_progress_history,model_project_task_progress_history,,1,1,1,1
+access_project_task_attachment_all,access_project_task_attachment,model_project_task_attachment,,1,1,1,1
+access_project_task_project_all,access_project_task_project,model_project_task_project,,1,1,1,1
+access_project_stage_project_all,access_project_stage_project,model_project_stage_project,,1,1,1,1
+access_project_team_all,access_project_team,model_project_team,,1,1,1,1
+access_project_documents_all,access_project_documents,model_project_documents,,1,1,1,1
+access_project_details_all,access_project_details,model_project_details,,1,1,1,1
+access_project_scope_all,access_project_scope,model_project_scope,,1,1,1,1

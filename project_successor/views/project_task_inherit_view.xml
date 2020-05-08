@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="project_task_inherit_view_form" model="ir.ui.view">
+        <field name="name">project.task.inherit.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_native.ganttaps_view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='gantt_predecessor']" position="after">
+                <page name="gantt_successor" string="Successor">
+                    <field name="successor_ids" readonly="True">
+                        <tree string="Successor">
+                            <field name="parent_task_id" />
+                            <field name="type"/>
+                            <field name="lag_quantity"/>
+                            <field name="lag_type"/>
+                            <field name="related_task"/>
+                        </tree>
+                        <form string="Successor">
+                            <group>
+                                <field name="parent_task_id" />
+                                <field name="type"/>
+                            </group>
+                            <group>
+                                <field name="lag_quantity"/>
+                                <field name="lag_type"/>
+                                <field name="related_task"/>
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project_task_proptmessage" model="ir.ui.view">
+        <field name="name">task.confirm_wizard.form</field>
+        <field name="model">task.confirm_wizard</field>
+        <field name="arch" type="xml">
+            <form >
+                <sheet>
+                    <!-- <field name="warning_msg" readonly="1" /> -->
+                    <field name="result" readonly="1" />
+                </sheet>
+                <footer>
+                <button name="yes_confirm" type="object" string="Yes"/>
+                <button name="no" string="No"/>
+            </footer>
+                
+            </form>
+            
+        </field>
+    </record>
+
+
+    <record id="project_task_inherit_view_form" model="ir.ui.view">
+        <field name="name">project.task.inherit.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_native.ganttaps_view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='gantt_predecessor']" position="after">
+                <page name="gantt_successor" string="Successor">
+                    <field name="successor_ids" readonly="True">
+                        <tree string="Successor">
+                            <field name="parent_task_id" />
+                            <field name="type"/>
+                            <field name="lag_quantity"/>
+                            <field name="lag_type"/>
+                            <field name="related_task"/>
+                        </tree>
+                        <form string="Successor">
+                            <group>
+                                <field name="parent_task_id" />
+                                <field name="type"/>
+                            </group>
+                            <group>
+                                <field name="lag_quantity"/>
+                                <field name="lag_type"/>
+                                <field name="related_task"/>
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+    <!-- <record id="ganttaps_view_task_form2_inherit2" model="ir.ui.view">
+            <field name="name">project.task.ganttaps.form</field>
+            <field name="model">project.task</field>
+            <field name="type">ganttaps</field>
+            <field name="inherit_id" ref="project_native.ganttaps_view_task_form2"/>
+            <field eval="2" name="priority"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//notebook/page[@name='gantt_predecessor']" position="attributes">
+                    <attribute name="string">Task</attribute>
+                </xpath>
+                
+            </field>
+    </record> -->
+
+
+</odoo>

@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_employee_time_history,access_employee_time_history,project_extension.model_employee_time_history,,1,1,1,1
+access_project_stage_project,access_project_stage_project,project_extension.model_project_stage_project,,1,1,1,1
+access_task_deadline,access_task_deadline,project_task_deadline_approval.model_task_deadline,,1,1,1,1
+access_project_issue,access_project_issue,project_issue.model_project_issue,,1,1,1,1
+access_project_task_successor,access_project_task_successor,project_successor.model_project_task_successor,,1,1,1,1
+access_project_task_predecessor,access_project_task_predecessor,project_successor.model_project_task_predecessor,,1,1,1,1
+access_project_task_progress_history,access_project_task_progress_history,project_extension.model_project_task_progress_history,,1,1,1,1
+access_project_task_info,access_project_task_info,project_native.model_project_task_info,,1,1,1,1
+access_project_task_resource_link,access_project_task_resource_link,project_native.model_project_task_resource_link,,1,1,1,1
+access_project_team,access_project_team,project_extension.model_project_team,,1,1,1,1
+access_project_documents,access_project_documents,project_extension.model_project_documents,,1,1,1,1
+access_project_scope,access_project_scope,project_extension.model_project_scope,,1,1,1,1
+access_project_task,access_project_task,project.model_project_task,,1,1,1,1
+access_project_task_detail_plan,access_project_task_detail_plan,project_native.model_project_task_detail_plan,,1,1,1,1

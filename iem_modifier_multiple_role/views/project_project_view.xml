@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<openerp>
+	<data>
+	
+		<record id="project_task_form_view_date" model="ir.ui.view">
+			<field name="name">project.task.form.view.date</field>
+			<field name="model">project.task</field>
+			<field name="inherit_id" ref="project.view_task_form2" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//field[@name="start_date"]' position="attributes">
+						<attribute name="required">0</attribute>
+					</xpath>
+					<xpath expr='//field[@name="p_end_date"]' position="attributes">
+						<attribute name="required">0</attribute>
+					</xpath>
+					<xpath expr='//field[@name="date_deadline"]' position="attributes">
+						<attribute name="required">0</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+	
+		<record id="project_project_form_view_user_iem" model="ir.ui.view">
+			<field name="name">project.form.view.user.iem</field>
+			<field name="model">project.project</field>
+			<field name="inherit_id" ref="project.edit_project" />
+			<field name="priority">20</field>
+			<field name="groups_id" eval="[(4, ref('project_access_rights.group_project_user'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+		
+		<record id="project_task_form_view_user_iem" model="ir.ui.view">
+			<field name="name">project.task.form.view.user.iem</field>
+			<field name="model">project.task</field>
+			<field name="inherit_id" ref="project.view_task_form2" />
+			<field name="priority">45</field>
+			<field name="groups_id" eval="[(4, ref('project_access_rights.group_project_user'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="res_users_related_project_child" model="ir.ui.view">
+			<field name="name">res.users.related.project.child</field>
+			<field name="model">res.users</field>
+			<field name="inherit_id" ref="base.view_users_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='partner_id']" position="before">
+					<field name="project_child_ids" invisible="1">
+						<tree>
+							<field name="project_parent_id" />
+							<field name="child_id" />
+						</tree>
+					</field>
+				</xpath>
+			</field>
+		</record>
+		
+		<record id="edit_project_access_pd" model="ir.ui.view">
+			<field name="name">project.project.access.edit.pd</field>
+			<field name="model">project.project</field>
+			<field name="inherit_id" ref="project.edit_project" />
+			<field name="priority">24</field>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='project_PIC_id']" position="after">
+					<field name="pd_id" required="1" />
+				</xpath>
+			</field>
+		</record>
+
+		<record id="project_employee_cost_view_tree" model="ir.ui.view">
+			<field name="name">project.employee.cost.view.tree</field>
+			<field name="model">project.employee.cost.list.report</field>
+			<field name="arch" type="xml">
+				<tree editable="top" create="false" edit="false" delete="false">
+					<field name="employee_id" />
+					<field name="project_task" />
+					<field name="project_id" />
+					<field name="pd_id" invisible="1" />
+					<field name="plan_hours" />
+					<field name="actual_hours" />
+					<field name="leftover_hours" />
+					<field name="spentover_hours" string="Spentover (%)"/>
+					<field name="cost" />
+					<field name="date" />
+					<field name="spent_value" />
+					<field name="user_id" />
+				</tree>
+			</field>
+		</record>
+
+		<!-- commission.commission pivot view -->
+		<record id="project_employee_cost_view_pivot"
+			model="ir.ui.view">
+			<field name="name">project.employee.cost.view.pivot</field>
+			<field name="model">project.employee.cost.list.report</field>
+			<field name="arch" type="xml">
+				<pivot string="Project Employee Cost">
+					<field name="employee_id" type="row"/>
+					<field name="project_task" type="row"/>
+					<field name="project_id" type="row"/>
+					<field name="plan_hours" type="measure" />
+					<field name="actual_hours" type="measure" />
+					<field name="leftover_hours" type="measure" />
+					<field name="spentover_hours" type="measure"  string="Spentover (%)"/>
+					<field name="cost" type="measure" />
+					<field name="date" type="row"/>
+					<field name="spent_value" type="measure" />
+					<field name="user_id" invisible="1"/>
+					<field name="pd_id" invisible="1" />
+				</pivot>
+			</field>
+		</record>
+
+		<record id="project_employee_cost_view_search"
+			model="ir.ui.view">
+			<field name="name">project.employee.cost.view.search</field>
+			<field name="model">project.employee.cost.list.report</field>
+			<field name="arch" type="xml">
+				<search string="Project Employee Cost">
+					<field name="employee_id" />
+					<field name="project_task" />
+					<field name="project_id" />
+					<field name="pd_id" invisible="1" />
+					<field name="plan_hours" />
+					<field name="actual_hours" />
+					<field name="leftover_hours" />
+					<field name="spentover_hours" />
+					<field name="cost" />
+					<field name="date" />
+					<field name="spent_value" />
+					<field name="user_id" />
+					<group expand="0" string="Group By">
+						<filter string="Employee" domain="[]"
+							context="{'group_by':'employee_id'}" />
+						<filter string="Project" domain="[]" context="{'group_by':'project_id'}" />
+						<filter string="Project Task" domain="[]"
+							context="{'group_by':'project_task'}" />
+	
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="action_project_employee_cost"
+			model="ir.actions.act_window">
+			<field name="name">Project Employee Cost</field>
+			<field name="res_model">project.employee.cost.list.report</field>
+			<field name="view_mode">pivot,tree</field>
+			<field name="search_view_id"
+				ref="project_employee_cost_view_search" />
+			<field name="view_ids"
+				eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'pivot', 'view_id': ref('project_employee_cost_view_pivot')}),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('project_employee_cost_view_tree')})]" />
+		</record>
+
+		<menuitem id="project_employee_cost_report_menu"
+			name="Project Employee Cost"
+			action="action_project_employee_cost"
+			parent="project.menu_project_report" sequence="15" />
+			
+		<record id="project_employee_planned_actual_cost.project_employee_cost_report_navigation_menu" model="ir.ui.menu">
+	        <field name="active">False</field>
+	    </record>
+	    
+	    <record id="project_employee_manhours_view_tree" model="ir.ui.view">
+			<field name="name">project.employee.manhours.view.tree</field>
+			<field name="model">project.employee.manhours.report</field>
+			<field name="arch" type="xml">
+				<tree editable="top" create="false" edit="false" delete="false">
+					<field name="employee_id" />
+					<field name="project_id" />
+					<field name="project_task" />
+					<field name="pd_id" invisible="1" />
+					<field name="plan_hours" />
+					<field name="actual_hours" />
+					<field name="leftover_hours" />
+					<field name="spentover_hours" />
+					<field name="user_id" invisible="1" />
+				</tree>
+			</field>
+		</record>
+
+		<!-- commission.commission pivot view -->
+		<record id="project_employee_manhours_view_pivot"
+			model="ir.ui.view">
+			<field name="name">project.employee.manhours.view.pivot</field>
+			<field name="model">project.employee.manhours.report</field>
+			<field name="arch" type="xml">
+				<pivot string="Project Employee Manhours">
+					<field name="employee_id" type="row" />
+					<field name="project_id" type="row" />
+					<field name="project_task" type="row" />
+					<field name="pd_id" invisible="1" />
+					<!--<field name="plan_hours" type="measure" />-->
+					<!--<field name="actual_hours" type="measure" />-->
+					<!--<field name="leftover_hours" type="measure" />-->
+					<!--<field name="spentover_hours" type="measure" />-->
+					<field name="user_id" invisible="1" />
+				</pivot>
+			</field>
+		</record>
+
+		<record id="project_employee_manhours_view_search"
+			model="ir.ui.view">
+			<field name="name">project.employee.manhours.view.search</field>
+			<field name="model">project.employee.manhours.report</field>
+			<field name="arch" type="xml">
+				<search string="Project Employee Manhours">
+					<field name="employee_id" />
+					<field name="project_id" />
+					<field name="project_task" />
+					<field name="pd_id" invisible="1" />
+					<field name="plan_hours" />
+					<field name="actual_hours" />
+					<field name="leftover_hours" />
+					<field name="spentover_hours" />
+					<field name="user_id" invisible="1" />
+					<group expand="0" string="Group By">
+						<filter string="Employee" domain="[]"
+							context="{'group_by':'employee_id'}" />
+						<filter string="Project" domain="[]" context="{'group_by':'project_id'}" />
+						<filter string="Project Task" domain="[]"
+							context="{'group_by':'project_task'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="action_project_employee_manhours"
+			model="ir.actions.act_window">
+			<field name="name">Project Employee Manhours</field>
+			<field name="res_model">project.employee.manhours.report</field>
+			<field name="view_mode">pivot,tree</field>
+			<field name="search_view_id"
+				ref="project_employee_manhours_view_search" />
+			<field name="view_ids"
+				eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'pivot', 'view_id': ref('project_employee_manhours_view_pivot')}),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('project_employee_manhours_view_tree')})]" />
+		</record>
+		
+		<menuitem id="project_employee_manhours_report_menu"
+			name="Project Employee Manhours"
+			action="action_project_employee_manhours"
+			parent="project.menu_project_report" sequence="10" />
+			
+		<record id="project_employee_planned_actual_cost.project_report_navigation_menu" model="ir.ui.menu">
+	        <field name="active">False</field>
+	    </record>
+
+	</data>
+</openerp>

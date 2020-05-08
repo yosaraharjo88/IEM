@@ -1,0 +1,32 @@
+<odoo>
+    <data>
+        <record id="view_project_budget_report_table" model="ir.ui.view">
+            <field name="name">project.budget.report.table</field>
+            <field name="model">project.task</field>
+            <field name="type">project_budget_table</field>
+            <field name="arch" type="xml">
+                <project_budget_table>
+
+                </project_budget_table>
+            </field>
+        </record>
+        <record id="view_project_budget_report_graph" model="ir.ui.view">
+            <field name="name">project.budget.report.graph</field>
+            <field name="model">project.task</field>
+            <field name="type">project_budget_graph</field>
+            <field name="arch" type="xml">
+                <project_budget_graph>
+
+                </project_budget_graph>
+            </field>
+        </record>
+        <!-- actions -->
+        <record id="project_budget_report-action" model="ir.actions.act_window">
+            <field name="name">Project Budget Report</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">project_budget_table,project_budget_graph</field>
+        </record>
+        <menuitem id="project_budget_report-menu_item" name="Project Budget Report" parent="project.menu_project_report"
+                  action="project_budget_report-action" sequence="100"/>
+    </data>
+</odoo>

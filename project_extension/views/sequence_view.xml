@@ -1,0 +1,41 @@
+<odoo>
+
+	<record id="project_native.project_resource_menu"
+		model="ir.ui.menu">
+		<field name="active">False</field>
+	</record>
+	
+<!-- 	<record id="project_template_job_order.menu_project_template" -->
+<!-- 		model="ir.ui.menu"> -->
+<!-- 		<field name="active">False</field> -->
+<!-- 	</record> -->
+	
+<!-- 	<record id="project_template_job_order.menu_task_template" -->
+<!-- 		model="ir.ui.menu"> -->
+<!-- 		<field name="active">False</field> -->
+<!-- 	</record> -->
+	
+<!-- 	<record id="project_task_deadline_approval.task_deadline_request_menu" -->
+<!-- 		model="ir.ui.menu"> -->
+<!-- 		<field name="active">False</field> -->
+<!-- 	</record> -->
+
+<!-- 	<menuitem id="project_main_template_menu" -->
+<!-- 		parent="project.menu_main_pm" name="Template" sequence="80" /> -->
+
+	<!-- <menuitem
+		id="menu_project_template_template"
+		name="Project Template" parent="project_extension.project_main_template_menu"
+		action="project_template_job_order.action_project_template"
+		sequence="5" />
+
+	<menuitem id="menu_task_template_template"
+		parent="project_extension.project_main_template_menu"
+		action="project_template_job_order.action_task_template" sequence="10" /> -->
+
+	<!-- <menuitem
+		action="project_task_deadline_approval.task_deadline_request_actiom"
+		id="task_deadline_request_menu_extension"
+		parent="project.menu_main_pm" sequence="90" /> -->
+
+</odoo>

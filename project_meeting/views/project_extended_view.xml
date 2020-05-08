@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<openerp>
+    <data>
+
+        <record id="edit_project_access_inherited" model="ir.ui.view">
+            <field name="name">project.project.access.edit.inherited</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="priority">24</field>
+            <field name="arch" type="xml">
+
+                <button  icon="fa-calendar" position="before">
+                    <button class="oe_stat_button" type="object" context="{'partner_id': partner_id}" name="action_schedule_project_meeting" icon="fa-calendar">
+                                <div class="o_stat_info">
+                                    <field name="p_meeting_count" class="o_stat_value"/>
+                                    <span class="o_stat_text" attrs="{'invisible': [('p_meeting_count', '&lt;', 2)]}"> Meetings</span>
+                                    <span class="o_stat_text" attrs="{'invisible': [('p_meeting_count', '&gt;', 1)]}"> Meeting</span>
+                                </div>
+                            </button>
+                </button>
+
+               <!--  <xpath expr="//notebook" position="inside">
+                    <page name="p_document" string="Document">
+                        <field name="p_document_ids" nolable="1">
+                            <tree editable="bottom">
+                                <field name="document_attch"  filename="name" />
+                                <field name="name" invisible="1" />
+                                <field name="file_type" />
+                                <field name="discription" />
+
+                            </tree>
+                        </field>
+                        
+                    </page>
+                    
+                </xpath> -->
+
+            </field>
+        </record>
+
+        <record id="view_crm_meeting_search_inherited" model="ir.ui.view">
+            <field name="name">calendar.event.inherited</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+            <field name="priority">24</field>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='name']" position="after">
+                    <group style="font-size:10px    ">
+                        <!-- <label for="project_id" string="Project"/> -->
+                        <field name="is_project_meeting" invisible="1"/>
+                        <field name="project_id" readonly="1" attrs="{'invisible' : [('is_project_meeting','!=',True)]}"/>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_crm_meeting_tree_inherited" model="ir.ui.view">
+            <field name="name">calendar.event.tree.inherited</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
+            <field name="priority">24</field>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='partner_ids']" position="after">
+                        <field name="project_id" />
+                </xpath>
+
+            </field>
+        </record>
+
+        
+
+
+        <record id="view_crm_meeting_defult_search_for_project_inherited" model="ir.ui.view">
+            <field name="name">calendar.event.search.inherited</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_search"/>
+            <field name="priority">24</field>
+            <field name="arch" type="xml">
+
+              <xpath expr="//field[@name='user_id']" position="after">
+                <field name="project_id"/>
+            </xpath>
+            <xpath expr="//group" position="inside">
+                    <filter string="Project" domain="[]" context="{'group_by':'project_id'}"/>
+            </xpath>
+
+            </field>
+        </record>
+
+        <!-- calendar.view_calendar_event_search -->
+
+        <record id="view_calendar_event_form_inherited" model="ir.ui.view">
+            <field name="name">calendar.event</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='description']" position="attributes">
+                    <attribute name="string">Meeting Summary</attribute>
+                </xpath>
+                <xpath expr="//label[@for='description']" position="attributes">
+                    <attribute name="string">Meeting Summary</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='start_datetime']" position="replace">
+                    <field name="start_datetime"  attrs="{'invisible' : [('allday','=',True)],
+                       'required' : [('allday','!=',True)] }"/>
+                </xpath>
+
+                 <xpath expr="//notebook" position="inside">
+                    <page name="p_document" string="Document">
+                        <field name="p_document_ids" nolable="1">
+                            <tree editable="bottom">
+                                <field name="document_attch"  filename="name" />
+                                <field name="name" invisible="1" />
+                                <field name="file_type" />
+                                <field name="uploaded_by"  readonly="1"/>
+                                <field name="discription" />
+
+                            </tree>
+                        </field>
+                        
+                    </page>
+                    
+                </xpath>
+
+            </field>
+        </record>
+        
+
+
+    </data>
+</openerp>

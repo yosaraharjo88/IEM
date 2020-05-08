@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    
+    <record id="view_weekly_report_search_form" model="ir.ui.view">
+            <field name="name">project.weekly.report.search.form</field>
+            <field name="model">project.weekly.report</field>
+            <field name="arch" type="xml">
+               <search string="Project Weekly Report">
+                    <field name="name" string="Weekly Report"/>
+                    <field name="tag_ids"/>
+                    <field name="project_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Project" name="project" context="{'group_by':'project_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="act_project_weekly_report" model="ir.actions.act_window">
+            <field name="name">Project Weekly Report</field>
+            <field name="res_model">project.weekly.report</field>
+            <field name="view_mode">tree,form,calendar,pivot</field>
+            <field name="search_view_id" ref="view_weekly_report_search_form"/>
+            <field name="context">{'search_default_project':1}</field>
+            <field name="help">This report allows you to analyse project Weekly.</field>
+
+        </record>
+
+         <record id="view_weekly_report_form" model="ir.ui.view">
+            <field name="name">project.weekly.report.form</field>
+            <field name="model">project.weekly.report</field>
+            <field eval="2" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Project Weekly Report" class="o_form_project_tasks">
+                    <sheet string="Project Weekly Report">
+                    <div class="oe_title">
+                        <h1 class="o_row">
+                            <field name="name" placeholder="Project Weekly Report..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id" domain="[('active', '=', True)]" />
+                            <field name="project_start"/>
+                            <field name="project_end" />
+                            <field name="progress" widget="progressbar"/>
+                        </group>
+                        <group>
+                            <field name="report_creation_date"/>
+                            <field name="weekly_segment" invisible="1"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'no_create_edit': True}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="description_page" string="Description">
+                            <field name="description" type="html"/>
+                            <div class="oe_clear"/>
+                        </page>
+                        <page name="progress_history_page" string="Progress History">
+                            <field name="progressive_history_ids">
+
+                                <tree string="Progress History" create="0" edit="0" delete="0">
+                                    <field name="project_task_id"/>
+                                    <field name="created_date"/>
+                                    <field name="progress_start_date"/>
+                                    <field name="progress_end_date"/>
+                                    <field name="created_by"/>
+                                    <field name="additional_progress" string="Progress(%)"/>
+                                    <field name="latest_completion" string="Completion(%)"/>
+                                    <field name="progress_summary"/>
+                                </tree>
+                                <form string="Progress History">
+                                    <sheet>
+                                        <group>
+                                            <group>
+                                                <field name="project_task_id"/>
+                                                <field name="project_name"/>
+                                                <field name="stage_name"/>
+                                                <field name="task_name"/>
+                                                <field name="progress_start_date"/>
+                                                <field name="progress_end_date"/>
+                                                <field name="additional_progress" widget="integer"/>
+                                            </group>
+                                            <group>
+                                                <field name="latest_completion"/>
+                                                <field name="progress_summary"/>
+                                                <field name="created_date"/>
+                                                <field name="created_by"/>
+                                            </group>
+                                        </group>
+                                        <notebook>
+                                            <page string="Attachments">
+                                                <field name="attachment_ids" widget="one2many_list">
+                                                    <tree editable="bottom">
+                                                        <field name="date"/>
+                                                        <field name="file" filename="file_name" filesize="file_size"/>
+                                                        <field name="file_name" forcesave="1"/>
+                                                        <field name="file_size"/>
+                                                    </tree>
+                                                </field>
+                                            </page>
+                                        </notebook>
+                                    </sheet>
+                                </form>
+                            </field>
+
+                        </page>
+                        <page name="s_curve_tab" string="S Curve">
+
+                        </page>
+                        <page name="issue_tab" string="Issues">
+                            <field name="issue_ids" readonly="0" force_save="1" store="1">
+                                <tree string="Feature Tracker Tree" create="0" edit="0" delete="0">
+                                    <field name="id" force_save="1"/>
+                                    <field name="name" string="Issue" force_save="1"/>
+                                    <field name="priority" string="Priority" force_save="1"/>
+                                    <field name="create_date"/>
+                                    <field name="stage_id" widget="selection" readonly="0" force_save="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_weekly_report_tree" model="ir.ui.view">
+            <field name="name">project.weekly.report.tree</field>
+            <field name="model">project.weekly.report</field>
+            <field eval="2" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Project Weekly Report">
+                    <field name="name"/>
+                    <field name="project_id" />
+                    <field name="project_start"/>
+                    <field name="project_end"/>
+                    <field name="progress" widget="progressbar"/>
+                    <field name="report_creation_date"/>
+                    <field name="create_uid" string="Created By"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_weekly_report_calendar" model="ir.ui.view">
+            <field name="name">project.weekly.report.calendar</field>
+            <field name="model">project.weekly.report</field>
+            <field eval="2" name="priority"/>
+            <field name="arch" type="xml">
+                <calendar string="Project Weekly Report" mode="month">
+                    <field name="name"/>
+                    <field name="project_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="view_project_weekly_report_pivot" model="ir.ui.view">
+            <field name="name">project.weekly.report.pivot</field>
+            <field name="model">project.weekly.report</field>
+            <field name="arch" type="xml">
+                <pivot string="Project Weekly Report">
+                    <field name="project_id" type="row"/>
+                </pivot>
+            </field>
+        </record>
+
+        <menuitem id="menu_project_weekly_report" name="Project Weekly Report"
+                  action="act_project_weekly_report"
+            parent="project.menu_project_report" sequence="99"/>
+
+
+</odoo>

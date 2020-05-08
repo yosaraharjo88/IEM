@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+
+        <t t-name="ScurveComparisonView">
+
+        <div class="container-fluid" style="height: 100%;">
+
+            <section style="height: 100%;">
+
+            <div class="row" style="height: 70%;">
+
+                <div class="col-sm-3" id="scurve_checkboxes" style="height: 100%; padding-top: 2%; padding-bottom: 2%; padding-left: 4%;">
+                    <div class="checkbox center-block" id="planned_checkbox">
+                        <label>
+                            <input type="checkbox" class="planned" id="first_check" value="planned" checked="checked">Planned Progress</input>
+                        </label>
+                    </div>
+                    <div class="checkbox center-block" id="actual_checkbox">
+                        <label>
+                            <input type="checkbox" class="actual" id="second_check" value="actual" checked="checked">Actual Progress</input>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-sm-9" style="height: 100%; overflow: auto;">
+                    <div class="center-block" style="height: 100%;" id="scurve_comparison_chart">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="height: 30%;">
+                <div class="col-sm-12"
+                     style="height: 100%; padding-top: 2%; padding-right: 2%; padding-bottom: 2%; padding-left: 2%;">
+                    <div class="center-block" id="scurve_comparison_table">
+                        <p>Data not Found</p>
+                    </div>
+                    <br/>
+                </div>
+            </div>
+            </section>
+
+        </div>
+
+    </t>
+
+    <t t-name="ScurveComparisonView_main">
+        <div class="scurvecomparison-container">
+            <p></p>
+        </div>
+    </t>
+
+</templates>

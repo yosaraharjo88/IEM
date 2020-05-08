@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+
+    <t t-name="ProjectBudgetGraphView">
+        <div class="projectbudgetgraph-view" t-att-data-id="widget.id">
+        </div>
+        <div id="project_budget_graph_report_bg_color" style="width: 100%; height: 100%;">
+        </div>
+    </t>
+
+    <t t-name="ProjectBudgetGraphView.main">
+        <div class="projectbudgetgraph-container">
+        </div>
+    </t>
+
+    <t t-name="SelectProjectBudget_buttons">
+        <div class="btn-group btn-group-sm">
+            <input class="btn btn-primary btn-sm" value="Project" type="button" id="select_project_button"/>
+        </div>
+        <div class="btn-group btn-group-sm">
+            <input class="btn btn-primary btn-sm" value="Budget" type="button" id="select_budget_button"/>
+        </div>
+    </t>
+</templates>

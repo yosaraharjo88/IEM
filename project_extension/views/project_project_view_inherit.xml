@@ -1,0 +1,193 @@
+<odoo>
+	<data>
+
+		<record id="project.open_view_project_all" model="ir.actions.act_window">
+			<field name="view_mode">kanban,form,tree,ganttaps</field>
+		</record>
+
+		<record id="action_set_task_confirm" model="ir.actions.server">
+			<field name="name">Confirm Project Tasks</field>
+			<field name="type">ir.actions.server</field>
+			<field name="model_id" ref="model_project_project" />
+			<field name="binding_model_id" ref="model_project_project" />
+			<field name="state">code</field>
+			<field name="code">
+				if records:
+					for record in records:
+						for task in	record.task_ids:
+							if task.state == 'draft':
+								action = task.action_confirm()
+			</field>
+		</record>
+
+		<record id="project_edit_project_inherit" model="ir.ui.view">
+			<field name="name">project.edit.project.form.inherit</field>
+			<field name="model">project.project</field>
+			<field name="inherit_id" ref="project.edit_project" />
+			<field name="arch" type="xml">
+
+				<xpath expr="/form/*" position="before">
+					<header>
+						<button name="force_complete" type="object" string="Force Complete"
+							class="oe_highlight" attrs="{'invisible': [('state_project', '=', 'done')]}"
+							confirm="Are you sure you want to force complete project?" />
+						<field name="state_project" widget="statusbar" />
+						<field name="state_stages_draft" invisible="1" />
+					</header>
+				</xpath>
+				<xpath expr="//div[@class='oe_title']" position="before">
+					<field name="sequence_id" readonly="True" />
+				</xpath>
+				<xpath expr="//sheet/div[2]" position="after">
+					<group>
+						<field name="project_duration" required="1" context="{'duration': True}" />
+						<field name="project_start_date" required="1"
+							context="{'start_date': True}" />
+						<field name="project_end_date" required="1" context="{'end_date': True}" />
+						<field name="actual_start_date" readonly="1" />
+						<field name="actual_end_date" readonly="1" />
+						<field name="max_value" invisible="1" />
+						<field name="project_completion" widget="progressbar" />
+						<field name="total_stage_weightage" invisible="1" />
+						<field name="project_PIC_id" required="1" />
+						<field name="project_PIC_ids" widget="many2many_tags" invisible="1"/>
+						
+					</group>
+					<!--<field name="description"/> -->
+					<group name="description" string="Description">
+						<field name="description" nolabel="1" />
+					</group>
+				</xpath>
+
+				<xpath expr="//notebook/page[1]" position="before">
+					<page name="project_scope" string="Project Scope">
+						<field name="project_scope_ids" />
+					</page>
+
+					<page name="project_team" string="Project Team">
+						<field name="project_team_ids">
+							<tree editable="bottom">
+								<field name="role_id" required="1" widget="selection"/>
+								<field name="employee_id" required="1" />
+								<field name="project_planned_hours" />
+								<field name="project_actual_hours" />
+							</tree>
+						</field>
+					</page>
+
+					<page name="project_documents" string="Project Documents">
+						<field name="project_documents_ids" />
+					</page>
+
+					<!-- For Milestone Tab -->
+					<page name="milestone" string="Project Milestone">
+						<field name="milestone_ids" context="{'milestone_ids':milestone_ids}">
+							<tree editable="bottom">
+								<field name="sequence" widget="handle" />
+								<field name="milestone_no" readonly="1" />
+								<field name="milestone_name" />
+								<field name="milestone_description" />
+								<field name="deliverable" string="Deliverables" />
+								<field name="expected_date" string="Expected Date" />
+								<field name="tolerance_days" string="Tolerance Days" />
+								<field name="archived_date" />
+								<field name="status" />
+							</tree>
+						</field>
+					</page>
+
+				</xpath>
+
+				<xpath expr="//notebook" position="inside">
+					<page name="task_stage_details" string="Stage Details">
+						<group string="Stage">
+							<field name="project_stage_ids" nolabel="1" force_save="1"
+								context="{'project_stage_ids':project_stage_ids}">
+								<tree editable="bottom">
+									<field name="project_id" invisible="1" />
+									<field name="sequence" widget="handle" />
+									<field name="sequence" readonly="1" />
+									<field name="stage_name" force_save="1" required="1" />
+									<field name="type_id" invisible="1" />
+									<field name="stage_weightage" sum="Total" />
+									<field name="stage_completion" invisible="1" />
+								</tree>
+							</field>
+						</group>
+					</page>
+				</xpath>
+				
+				<xpath expr="//notebook/page[5]" position="inside">
+					<div class="o_horizontal_separator" style="width: 100%;">
+						<h2>
+							<span>Milestone Status</span>
+						</h2>
+					</div>
+					<field name="milestone_status_ids" />
+				</xpath>
+
+			</field>
+		</record>
+		<record id="project_config_settings_inherits" model="ir.ui.view">
+			<field name="name">project settings inherits</field>
+			<field name="model">project.config.settings</field>
+			<field name="inherit_id" ref="project.view_config_settings" />
+			<field name="arch" type="xml">
+				<xpath expr="//group[@name='project_management']" position="inside">
+					<label for="planned_start_date" string="Planned Start Date" />
+					<div>
+						<field name="planned_start_date" string="Planned Start Date"
+							class="oe_inline" />
+					</div>
+					<label for="planned_end_date" string="Planned End Date" />
+					<div>
+						<field name="planned_end_date" string="Planned End Date"
+							class="oe_inline" />
+					</div>
+
+					<label for="days" string="Standard Project Duration (Days)" />
+					<div>
+						<field name="days" string="Standard Project Duration (Days)"
+							class="oe_inline" />
+					</div>
+					<label for="task_days" string="Standard Task Duration (Days)" />
+					<div>
+						<field name="task_days" string="Standard Task Duration (Days)"
+							class="oe_inline" />
+					</div>
+					<label for="project_late_parameter" string="Project Late Parameter (%)" />
+					<div>
+						<field name="project_late_parameter" string="Project Late Parameter (%)"
+							class="oe_inline" />
+					</div>
+				</xpath>
+				<xpath expr="//group[@name='timesheets']" position="before">
+					<group name="notification" string="Notifications" />
+					<div>
+						<label for="task_notification" string="Task Deadline Notification Before"
+							class="oe_inline" />
+						<field name="task_notification" required="1" class="oe_inline" />
+						<field name="notification_period" required="1" class="oe_inline" />
+					</div>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="project_project_view_form_simplified_inherit_PE"
+			model="ir.ui.view">
+			<field name="name">project.project.view.form.simplified.inherit.PE
+			</field>
+			<field name="model">project.project</field>
+			<field name="inherit_id" ref="project.project_project_view_form_simplified" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='name']" position="after">
+					<field name="project_duration" required="1" context="{'duration': True}" invisible="1"/>
+					<field name="project_start_date" required="1"
+						context="{'start_date': True}" />
+					<field name="project_end_date" required="1" context="{'end_date': True}" />
+					<field name="project_PIC_id" required="1" />
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

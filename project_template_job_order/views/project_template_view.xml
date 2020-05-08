@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="project_template_form_view">
+        <field name="name">project.template.form.view</field>
+        <field name="model">project.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet string="Project Template">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="duration"/>                            
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Project Template">
+                            <field name="task_ids" context="{'task_ids':task_ids}">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="stage_number" readonly="1"/>
+<!--                                    <field name="stage_id"/>-->
+                                    <field name="stage"/>
+                                    <field name="stage_weightages" sum="Stage Weightages"/>
+                                    <field name="task_template_id" widget="many2many_tags"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="project_template_tree_view">
+        <field name="name">project.template.tree.view</field>
+        <field name="model">project.template</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Project Type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_project_template" model="ir.actions.act_window">
+        <field name="name">Project Template</field>
+        <field name="res_model">project.template</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+    <menuitem id="menu_project_template" name="Project Template"
+              parent="project_main_template_menu" action="action_project_template"
+              sequence="5"/>
+
+<!--    <menuitem id="menu_project_template_construction" name="Project Template" parent="odoo_job_costing_management.menu_job_cost_project"-->
+<!--              action="action_project_template" sequence="82"/>-->
+
+
+    <!--	<menuitem id="new_menu_project_template" name="Project Template A"-->
+    <!--		parent="project.menu_project_config" action="action_project_template"-->
+    <!--		sequence="4" />-->
+</odoo>

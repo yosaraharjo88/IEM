@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record id="project_task_type_form_inherit" model="ir.ui.view">
+            <field name="name">project.task.type.form.inherit</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_edit"/>
+            <field name="arch" type="xml">
+
+                <!-- Add Status bar in Stages form view-->
+                <xpath expr="/form/*" position="before">
+                    <header>
+                        <!-- <field name="extra" invisible="1"/> -->
+                        <field name="check_onprogress" invisible="1"/>
+                        <field name="check_status_done" invisible="1"/>
+                        <field name="status_stage" widget="statusbar"/>
+                    </header>
+                </xpath>
+
+                <xpath expr="//field[@name='mail_template_id']" position="after">
+                    <field name="stage_weightage">
+                        <span>%</span>
+                    </field>
+                    <field name="stage_completion" widget="progressbar"/>
+                </xpath>
+
+                <xpath expr="//field[@name='project_ids']" position="replace">
+                    <field name="project_ids" widget="many2many_tags"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,16 @@
+<odoo>
+	<data>
+		<record id="project_edit_project_details_form_inherit" model="ir.ui.view">
+			<field name="name">project.edit.project.details.form.inherit</field>
+			<field name="model">project.project</field>
+			<field name="inherit_id" ref="project_extension.project_edit_project_inherit" />
+			<field name="arch" type="xml">
+
+				<xpath expr="//field[@name='project_actual_hours']" position="after">
+					<field name="other_project_pic"></field>
+				</xpath>
+			</field>
+		</record>
+		
+	</data>
+</odoo>

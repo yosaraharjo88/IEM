@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<template id="budget_scurve_inheritt" xml:space="preserve">
+
+    <t t-name="ScurveComparisonView" t-extend="ScurveComparisonView">
+        <t t-jquery="#actual_checkbox" t-operation="after">
+            <div class="checkbox center-block" style="height: auto;">
+                <label>
+                    <input type="checkbox" class="planned_budget" id="planned_budget_check" checked="checked">
+                    Planned
+                    Budget
+                    </input>
+                </label>
+            </div>
+            <div class="checkbox center-block" style="height: auto;">
+                <label>
+                    <input type="checkbox" class="actual_budget" id="actual_budget_check" checked="checked">Actual
+                        Budget
+                    </input>
+                </label>
+            </div>
+        </t>
+    </t>
+
+</template>
+

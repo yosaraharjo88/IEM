@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="timesheet_sheet_setting_form_view" model="ir.ui.view">
+		<field name="name">timesheet.sheet.setting.form</field>
+		<field name="model">time.sheet.setting</field>
+		<field name="arch" type="xml">
+			<form string="Timesheet" class="oe_form_configuration">
+				<header>
+					<button string="Apply" type="object" name="execute" class="oe_highlight" />
+					<button string="Cancel" type="object" name="cancel" class="oe_link"
+						special="cancel" />
+				</header>
+				<group>
+					<group string="Timesheets">
+						<label for="hours" />
+						<div class="o_row">
+							<field name="hours" />
+							<button type="object" string="+" class="oe_highlight"
+								name="action_show" attrs="{'invisible': [('show', '=', True)]}" />
+							<button type="object" string="-" class="oe_highlight"
+								name="action_hide" attrs="{'invisible': [('hide', '=', True)]}" />
+						</div>
+						<field name="monday"
+							attrs="{'invisible': [('hide', '=', True),('show','=',False)]}" />
+						<field name="tuesday"
+							attrs="{'invisible': [('hide', '=', True),('show','=',False)]}" />
+						<field name="wednesday"
+							attrs="{'invisible': [('hide', '=', True),('show','=',False)]}" />
+						<field name="thursday"
+							attrs="{'invisible': [('hide', '=', True),('show','=',False)]}" />
+						<field name="friday"
+							attrs="{'invisible': [('hide', '=', True),('show','=',False)]}" />
+						<field name="saturday"
+							attrs="{'invisible': [('hide', '=', True),('show','=',False)]}" />
+						<field name="sunday"
+							attrs="{'invisible': [('hide', '=', True),('show','=',False)]}" />
+						<field name="show" invisible="1" />
+						<field name="hide" invisible="1" />
+						<field name="mon" invisible="1" />
+						<field name="tue" invisible="1" />
+						<field name="wed" invisible="1" />
+						<field name="thu" invisible="1" />
+						<field name="fri" invisible="1" />
+						<field name="sat" invisible="1" />
+						<field name="sun" invisible="1" />
+					</group>
+				</group>
+			</form>
+		</field>
+	</record>
+	<record id="act_timesheet_sheet_setting" model="ir.actions.act_window">
+		<field name="name">Timesheets</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">time.sheet.setting</field>
+		<field name="view_mode">form</field>
+		<field name="target">inline</field>
+	</record>
+
+	<menuitem action="act_timesheet_sheet_setting" id="menu_act_timesheet_sheet_setting"
+		parent="hr_timesheet.timesheet_menu_root" name="Settings" sequence="99"
+		groups="hr_timesheet.group_hr_timesheet_user" />
+
+</odoo>

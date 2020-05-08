@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="notify_timesheet_reset_template" model="mail.template">
+            <field name="name">Notify Timesheet Reset Template</field>
+            <field name="email_from">${object.company_id.email|safe}</field>
+            <field name="subject">Timesheet Refused or Changed</field>
+            <field name="email_to">${object.employee_id.work_email or ''}</field>
+            <field name="lang">${object.lang}</field>
+            <field name="model_id" ref="hr_timesheet_attendance.model_hr_timesheet_sheet_sheet"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html">
+                <![CDATA[
+                Hello ${object.employee_id.name}<br/>
+                Your timesheet dated ${object.date_from} to ${object.date_from} has been Reset or Change by Administor<br/>
+                Thanks
+            ]]>
+            </field>
+        </record>
+
+        <record id="progress_history_reminder_template" model="mail.template">
+            <field name="name">Project Task Progress History Reminder e-mail template</field>
+            <field name="email_from">${object.company_id and object.company_id.email or ''}</field>
+            <field name="subject">Reminder for Task History Progress</field>
+            <field name="email_to">${object.project_task_id.user_id.partner_id.email|safe}</field>
+            <field name="lang">${object.lang}</field>
+            <field name="model_id" ref="project_extension.model_project_task_progress_history"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html">
+                <![CDATA[
+                Hello ${object.project_task_id.user_id.name}<br/>
+                There is no progress on Task ${object.project_task_id.name} from Last 7 days.<br/>
+                You can check Progress History start on ${object.progress_start_date} and end on ${object.progress_end_date} in Progress History tab in task.
+                Thanks
+            ]]>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+     <record id="task_deadline_form_view" model="ir.ui.view">
+        <field name="name">Task.deadline.form </field>
+        <field name="model">task.deadline</field>
+        <field name="arch" type="xml">
+            <form string="Task Deadline Request">
+                <header>
+                    <field name="state" widget="statusbar" />
+                    <button name="request_for_approval" states="draft" type="object" string="Request for approval "/>
+                    <button name="approve_request" type="object" string="Approve" attrs="{'invisible': ['|', ('is_user', '=', False),('state','!=','waiting')]}"/>
+                    <button name="reject_request"  type="object" string="Reject" attrs="{'invisible': ['|', ('is_user', '=', False),('state','!=','waiting')]}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="project_id" required="1" attrs="{'readonly': [('state','in',('approved','rejected'))]}"/>
+                        <field name="is_user" invisible="1" attrs="{'readonly': [('state','in',('approved','rejected'))]}"/>
+                        <field name="task_id" required="1" attrs="{'readonly': [('state','in',('approved','rejected'))]}"/>
+                        <field name="actual_deadline" readonly="1" force_save="1"/>
+                        <field name="new_deadline" required="1" attrs="{'readonly': [('state','in',('approved','rejected'))]}"/>
+                        <field name="affect_other_task"/>
+                        <field name="reason" attrs="{'readonly': [('state','in',('approved','rejected'))]}"/>
+                        <field name="create_date" readonly="1" attrs="{'readonly': [('state','in',('approved','rejected'))]}"/>
+                        <field name="approve_reject" readonly="1" attrs="{'readonly': [('state','in',('approved','rejected'))]}"/>
+                        <field name="request_by_id" attrs="{'readonly': [('state','in',('approved','rejected'))]}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<!--    <record id="project_edit_project_inherit" model="ir.ui.view">-->
+<!--            <field name="name">project.edit.project.form.inherit</field>-->
+<!--            <field name="model">project.project</field>-->
+<!--            <field name="inherit_id" ref="project.edit_project"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//form/sheet/div[2]" position="after">-->
+<!--                    <field name="project_PIC_id" invisible="0"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--    </record>-->
+
+    <record model="ir.ui.view" id="task_deadline_tree_view">
+        <field name="name">Task.deadline.tree</field>
+        <field name="model">task.deadline</field>
+        <field name="arch" type="xml">
+            <tree string="Task Deadline Request">
+                <field name="project_id"/>
+                <field name="task_id"/>
+                <field name="actual_deadline"/>
+                <field name="new_deadline"/>
+                <field name="reason"/>
+                <field name="create_date"/>
+                <field name="approve_reject"/>
+                <field name="request_by_id"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="task_deadline_request_actiom" model="ir.actions.act_window">
+        <field name="name">Task Deadline Request</field>
+        <field name="res_model">task.deadline</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'readonly_by_pass': ['actual_deadline']}</field>
+        <field name="target">current</field>
+    </record>
+
+   <menuitem action="task_deadline_request_actiom" id="task_deadline_request_menu" parent="project.menu_main_pm" sequence="90"/>
+</odoo>

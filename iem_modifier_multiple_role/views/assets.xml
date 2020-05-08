@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/iem_modifier_multiple_role/static/src/js/user_edit.js"/>
+                <link rel="stylesheet" href="/iem_modifier_multiple_role/static/src/css/user_edit.css"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xml:space="preserve">
+    <t t-extend="KanbanView.Group">
+        <t t-jquery=".o_kanban_load_more" t-operation="before">
+            <div id="task_progressbar"/>
+        </t>
+    </t>
+
+    <t t-name="KanbanView.task_progressbar">
+        <div class="o_progressbar">
+            <div class="o_progressbar_title">Stage Weightage:</div>
+            <div class="o_progressbar_values">0%</div>
+        </div>
+
+        <div class="o_progressbar">
+            <div class="o_progress">
+                <div class="o_progressbar_complete" style="width: 0%;"/>
+            </div>
+            <div class="o_progressbar_value" style="padding-left: 3%;">0%</div>
+        </div>
+        <hr style=" display: block; height: 1px; background-color: #123455;"/>
+    </t>
+
+    <t t-extend="KanbanView.buttons">
+        <t t-jquery="button.o-kanban-button-new" t-operation="before">
+            <button t-if="widget.model == 'project.task'" type="button"
+                    class="btn btn-primary btn-sm o_project_details" accesskey="f">
+                Project Details
+            </button>
+        </t>
+
+<!--        <t t-jquery="button.o-kanban-button-new" t-operation="after">-->
+<!--            <div class="o_progressbar">-->
+<!--                <div class="o_progress">-->
+<!--                    <div class="o_progressbar_complete" style="width: 0%;"/>-->
+<!--                </div>-->
+<!--                <div class="o_progressbar_value" style="padding-left: 3%;">0%</div>-->
+<!--            </div>-->
+<!--        </t>-->
+
+
+    </t>
+
+</template>

@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+
+        <record id="project_extension_project_edit_project_inherit" model="ir.ui.view">
+            <field name="name">project_extension.project.form.view.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project_extension.project_edit_project_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button string="Recalculate Forecast" type="object" name="create_progress_history"
+                            class="oe_highlight"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

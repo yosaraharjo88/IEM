@@ -1,0 +1,74 @@
+<odoo>
+    <data>
+
+        <!--        Form view of Project Milestone Status-->
+        <record model="ir.ui.view" id="project_milestone_status_form_view">
+            <field name="name">project.milestone.status.form.view</field>
+            <field name="model">project.milestone.status</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="status_name"/>
+                                <field name="status_description"/>
+                            </group>
+                            <group>
+                                <field name="color" widget="colorpicker"/>
+                                <field name="condition"/>
+                            </group>
+                        </group>
+                        <div>
+                            <div class="o_horizontal_separator" style="width: 100%;">
+                                <h2>
+                                    <span>Conditional Formatting</span>
+                                </h2>
+                            </div>
+                            <field name="conditional_format">
+                                <tree editable="bottom">
+                                    <field name="terms"/>
+                                    <field name="variable"/>
+                                    <field name="duration"
+                                           attrs="{'invisible':[('variable','=','expected_date_dur'), ('variable','=','expected_date_tol_dur')]}"/>
+                                </tree>
+                            </field>
+                        </div>
+                        <div>
+                            <div class="o_horizontal_separator" style="width: 100%;">
+                                <h2>
+                                    <span>Conditional Description</span>
+                                </h2>
+                            </div>
+                            <field name="conditional_description" placeholder="If Archived Date is"/>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!--Tree view of Project Milestone Status-->
+        <record model="ir.ui.view" id="project_milestone_status_tree_view">
+            <field name="name">project.milestone.status.tree.view</field>
+            <field name="model">project.milestone.status</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="status_name"/>
+                    <field name="status_description" string="Status Description"/>
+                    <field name="conditional_description"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--        Action for project.milestone.status-->
+        <record model="ir.actions.act_window" id="project_milestone_status_action">
+            <field name="name">Milestone Status</field>
+            <field name="res_model">project.milestone.status</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!--        add Milestone Status menu in Project#> Configuration#> -->
+        <menuitem action="project_milestone_status_action" id="project_milestone_status" name="Milestone Status"
+                  parent="project.menu_project_config" sequence="3" groups="project.group_project_manager"/>
+    </data>
+</odoo>

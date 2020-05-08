@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--Tree view-->
+        <record model="ir.ui.view" id="project_team_tree_view">
+            <field name="name">project.team.tree</field>
+            <field name="model">project.team</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="project_details_id" invisible="1"/>
+                    <field name="role_id" required="1"/>
+                    <field name="employee_id" required="1"/>
+                    <field name="project_planned_hours"/>
+                    <field name="project_actual_hours"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--Action-->
+        <record model="ir.actions.act_window" id="project_team_action">
+            <field name="name">Project Team</field>
+            <field name="res_model">project.team</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+  </data>
+</odoo>

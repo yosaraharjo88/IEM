@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_document_menu_view_form_doc_approve" model="ir.ui.view">
+        <field name="name">ir.attachment.inherit.doc.approve</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="project_extension.document_menu_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet" position="before">
+                <header>
+                    <button name="action_request_for_approval" states="draft" string="Request for Approval" class="btn-primary" type="object" />
+                    <button name="action_approved" string="Approve" class="btn-primary" type="object" attrs="{'invisible': ['|', ('is_approve_visible', '=', False), ('state', '!=', 'wait')]}"/>
+                    <button name="action_reject" string="Reject" class="btn-primary" type="object" attrs="{'invisible': ['|', ('is_approve_visible', '=', False), ('state', '!=', 'wait')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,wait,approved"/>
+                </header>
+            </xpath>
+            <xpath expr="//form/sheet//field[@name='description']" position="after">
+                <field name="is_approve_visible" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

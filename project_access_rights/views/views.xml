@@ -1,0 +1,1207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="project.menu_project_general_settings" model="ir.ui.menu">
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('base.group_system'))]" />
+		</record>
+
+		<record id="project.menu_project_tags_act" model="ir.ui.menu">
+			<field name="groups_id"
+				eval="[(4, ref('project.group_project_manager')),(4, ref('base.group_system'))]" />
+		</record>
+
+		<record id="project.menu_project_management" model="ir.ui.menu">
+			<field name="groups_id"
+				eval="[(4, ref('project.group_project_manager')),(4, ref('base.group_system'))]" />
+		</record>
+
+		<record id="project.menu_project_config_project" model="ir.ui.menu">
+			<field name="groups_id" eval="[(6, 0, [ref('group_project_director')])]" />
+		</record>
+
+		<record id="project_extension.project_milestone_status" model="ir.ui.menu">
+			<field name="groups_id" eval="[(6, 0, [ref('group_project_director')])]" />
+		</record>
+
+		<record id="project.menu_project_tags_act" model="ir.ui.menu">
+			<field name="groups_id" eval="[(6, 0, [ref('group_project_director')])]" />
+		</record>
+
+		<record id="project_team_role.menu_projects_teamrole_config"
+			model="ir.ui.menu">
+			<field name="groups_id" eval="[(6, 0, [ref('group_project_director')])]" />
+		</record>
+
+		<record id="project_edit_form_view" model="ir.ui.view">
+			<field name="name">project.edit.form.view</field>
+			<field name="model">project.project</field>
+			<field name="priority">30</field>
+			<field name="inherit_id" ref="project.edit_project" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//field[@name="name"]' position="after">
+						<field name="user_ids" widget="many2many_tags" invisible="1" />
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_form_view" model="ir.ui.view">
+			<field name="name">project.task.form.view</field>
+			<field name="model">project.task</field>
+			<field name="inherit_id" ref="project.view_task_form2" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//field[@name="project_id"]' position="after">
+						<field name="user_ids" widget="many2many_tags" invisible="1" />
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_project_kanban_view_user" model="ir.ui.view">
+			<field name="name">project.project.kanban.view.user</field>
+			<field name="model">project.project</field>
+			<field name="inherit_id" ref="project.view_project_kanban" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//kanban' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+					<xpath expr='//div[@class="o_kanban_card_manage_pane o_invisible"]'
+						position="attributes">
+						<attribute name="invisible">1</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_project_kanban_view_director" model="ir.ui.view">
+			<field name="name">project.project.kanban.view.director</field>
+			<field name="model">project.project</field>
+			<field name="priority">50</field>
+			<field name="inherit_id" ref="project.view_project_kanban" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive')),(4, ref('group_create_project'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//kanban' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+					<xpath expr='//div[@class="o_kanban_card_manage_pane o_invisible"]'
+						position="attributes">
+						<attribute name="invisible">0</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_kanban_view_user" model="ir.ui.view">
+			<field name="name">project.task.kanban.view.user</field>
+			<field name="model">project.task</field>
+			<field name="inherit_id" ref="project.view_task_kanban" />
+			<field name="groups_id" eval="[(4, ref('group_project_user'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//kanban' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_tree_view_user" model="ir.ui.view">
+			<field name="name">project.task.tree.view.user</field>
+			<field name="model">project.task</field>
+			<field name="inherit_id" ref="project.view_task_tree2" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_kanban_view_director" model="ir.ui.view">
+			<field name="name">project.task.kanban.view.director</field>
+			<field name="model">project.task</field>
+			<field name="inherit_id" ref="project.view_task_kanban" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//kanban' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_tree_view_director" model="ir.ui.view">
+			<field name="name">project.task.tree.view.director</field>
+			<field name="model">project.task</field>
+			<field name="inherit_id" ref="project.view_task_tree2" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+		
+		<record id="project_task_form_view_user" model="ir.ui.view">
+			<field name="name">project.task.form.view.user</field>
+			<field name="model">project.task</field>
+			<field name="inherit_id" ref="project.view_task_form2" />
+			<field name="groups_id" eval="[(4, ref('group_project_user'))]" />
+			<field name="priority">40</field>
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//header' position="attributes">
+						<attribute name="invisible">0</attribute>
+					</xpath>
+					<xpath expr='//button[@name="action_completed"]' position="attributes">
+						<attribute name="invisible">1</attribute>
+					</xpath>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_form_view_director" model="ir.ui.view">
+			<field name="name">project.task.form.view.director</field>
+			<field name="model">project.task</field>
+			<field name="inherit_id" ref="project.view_task_form2" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//button[@name="action_completed"]' position="attributes">
+						<attribute name="invisible">0</attribute>
+					</xpath>
+					
+					<xpath expr='//header' position="attributes">
+						<attribute name="invisible">0</attribute>
+					</xpath>
+				
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_form_view_admin" model="ir.ui.view">
+			<field name="name">project.task.form.view.admin</field>
+			<field name="model">project.task</field>
+			<field name="inherit_id" ref="project.view_task_form2" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//header' position="attributes">
+						<attribute name="invisible">1</attribute>
+					</xpath>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_issue_kanban_view_user" model="ir.ui.view">
+			<field name="name">project.issue.kanban.view.user</field>
+			<field name="model">project.issue</field>
+			<field name="inherit_id" ref="project_issue.project_issue_kanban_view" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//kanban' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_issue_tree_view_user" model="ir.ui.view">
+			<field name="name">project.issue.tree.view.user</field>
+			<field name="model">project.issue</field>
+			<field name="inherit_id" ref="project_issue.project_issue_tree_view" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_issue_form_view_user" model="ir.ui.view">
+			<field name="name">project.issue.form.view.user</field>
+			<field name="model">project.issue</field>
+			<field name="inherit_id" ref="project_issue.project_issue_form_view" />
+			<field name="groups_id" eval="[(4, ref('group_project_user'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_issue_kanban_view_director" model="ir.ui.view">
+			<field name="name">project.issue.kanban.view.director</field>
+			<field name="model">project.issue</field>
+			<field name="inherit_id" ref="project_issue.project_issue_kanban_view" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//kanban' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_issue_tree_view_director" model="ir.ui.view">
+			<field name="name">project.issue.tree.view.director</field>
+			<field name="model">project.issue</field>
+			<field name="inherit_id" ref="project_issue.project_issue_tree_view" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_issue_form_view_director" model="ir.ui.view">
+			<field name="name">project.issue.form.view.director</field>
+			<field name="model">project.issue</field>
+			<field name="inherit_id" ref="project_issue.project_issue_form_view" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_issue_form_view_admin" model="ir.ui.view">
+			<field name="name">project.issue.form.view.admin</field>
+			<field name="model">project.issue</field>
+			<field name="inherit_id" ref="project_issue.project_issue_form_view" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_resource_link_tree_user" model="ir.ui.view">
+			<field name="name">project.task.resource.link.tree.user</field>
+			<field name="model">project.task.resource.link</field>
+			<field name="inherit_id" ref="project_native.project_task_resource_link_tree" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_resource_link_form_user" model="ir.ui.view">
+			<field name="name">project.task.resource.link.form.user</field>
+			<field name="model">project.task.resource.link</field>
+			<field name="inherit_id" ref="project_native.project_task_resource_link_form" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_resource_link_tree_director" model="ir.ui.view">
+			<field name="name">project.task.resource.link.tree.director</field>
+			<field name="model">project.task.resource.link</field>
+			<field name="inherit_id" ref="project_native.project_task_resource_link_tree" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_resource_link_form_director" model="ir.ui.view">
+			<field name="name">project.task.resource.link.form.director</field>
+			<field name="model">project.task.resource.link</field>
+			<field name="inherit_id" ref="project_native.project_task_resource_link_form" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="view_weekly_report_tree_user" model="ir.ui.view">
+			<field name="name">view.weekly.report.tree.user</field>
+			<field name="model">project.weekly.report</field>
+			<field name="inherit_id" ref="project_weekly_report.view_weekly_report_tree" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="view_weekly_report_form_user" model="ir.ui.view">
+			<field name="name">view.weekly.report.form.user</field>
+			<field name="model">project.weekly.report</field>
+			<field name="inherit_id" ref="project_weekly_report.view_weekly_report_form" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="view_weekly_report_tree_director" model="ir.ui.view">
+			<field name="name">view.weekly.report.tree.director</field>
+			<field name="model">project.weekly.report</field>
+			<field name="inherit_id" ref="project_weekly_report.view_weekly_report_tree" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="view_weekly_report_form_director" model="ir.ui.view">
+			<field name="name">view.weekly.report.form.director</field>
+			<field name="model">project.weekly.report</field>
+			<field name="inherit_id" ref="project_weekly_report.view_weekly_report_form" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<!-- <record id="view_config_settings_user" model="ir.ui.view"> -->
+		<!-- <field name="name">view.config.settings.user</field> -->
+		<!-- <field name="model">project.config.settings</field> -->
+		<!-- <field name="inherit_id" ref="project.view_config_settings" /> -->
+		<!-- <field name="groups_id" eval="[(4, ref('group_project_user')),(4, 
+			ref('group_project_admin')),(4, ref('project.group_project_manager'))]" /> -->
+		<!-- <field name="arch" type="xml"> -->
+		<!-- <data> -->
+		<!-- <xpath expr='//header' position="replace"> -->
+		<!-- </xpath> -->
+		<!-- </data> -->
+		<!-- </field> -->
+		<!-- </record> -->
+
+		<record id="task_template_tree_view_user" model="ir.ui.view">
+			<field name="name">task.template.tree.view.user</field>
+			<field name="model">task.template</field>
+			<field name="inherit_id"
+				ref="project_template_job_order.task_template_tree_view" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="task_template_form_view_user" model="ir.ui.view">
+			<field name="name">task.template.form.view.user</field>
+			<field name="model">task.template</field>
+			<field name="inherit_id"
+				ref="project_template_job_order.task_template_form_view" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="task_template_tree_view_director" model="ir.ui.view">
+			<field name="name">task.template.tree.view.director</field>
+			<field name="model">task.template</field>
+			<field name="inherit_id"
+				ref="project_template_job_order.task_template_tree_view" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive')),(4, ref('group_manage_project_task_template'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="task_template_form_view_director" model="ir.ui.view">
+			<field name="name">task.template.form.view.director</field>
+			<field name="model">task.template</field>
+			<field name="inherit_id"
+				ref="project_template_job_order.task_template_form_view" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive')),(4, ref('group_manage_project_task_template'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_template_tree_view_user" model="ir.ui.view">
+			<field name="name">project.template.tree.view.user</field>
+			<field name="model">project.template</field>
+			<field name="inherit_id"
+				ref="project_template_job_order.project_template_tree_view" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_template_form_view_user" model="ir.ui.view">
+			<field name="name">project.template.form.view.user</field>
+			<field name="model">project.template</field>
+			<field name="inherit_id"
+				ref="project_template_job_order.project_template_form_view" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_template_tree_view_director" model="ir.ui.view">
+			<field name="name">project.template.tree.view.director</field>
+			<field name="model">project.template</field>
+			<field name="inherit_id"
+				ref="project_template_job_order.project_template_tree_view" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive')),(4, ref('group_manage_project_task_template'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_template_form_view_director" model="ir.ui.view">
+			<field name="name">project.template.form.view.director</field>
+			<field name="model">project.template</field>
+			<field name="inherit_id"
+				ref="project_template_job_order.project_template_form_view" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive')),(4, ref('group_manage_project_task_template'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_type_tree_user" model="ir.ui.view">
+			<field name="name">project.task.type.tree.view.user</field>
+			<field name="model">project.task.type</field>
+			<field name="inherit_id" ref="project.task_type_tree" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_type_form_view_user" model="ir.ui.view">
+			<field name="name">project.task.type.form.view.user</field>
+			<field name="model">project.task.type</field>
+			<field name="inherit_id" ref="project.task_type_edit" />
+			<field name="groups_id" eval="[(4, ref('group_project_user'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_type_tree_director" model="ir.ui.view">
+			<field name="name">project.task.type.tree.view.director</field>
+			<field name="model">project.task.type</field>
+			<field name="inherit_id" ref="project.task_type_tree" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_type_form_view_director" model="ir.ui.view">
+			<field name="name">project.task.type.form.view.director</field>
+			<field name="model">project.task.type</field>
+			<field name="inherit_id" ref="project.task_type_edit" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_type_form_view_admin" model="ir.ui.view">
+			<field name="name">project.task.type.form.view.admin</field>
+			<field name="model">project.task.type</field>
+			<field name="inherit_id" ref="project.task_type_edit" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_milestone_status_tree_view_user" model="ir.ui.view">
+			<field name="name">project.milestone.status.tree.view.user</field>
+			<field name="model">project.milestone.status</field>
+			<field name="inherit_id"
+				ref="project_extension.project_milestone_status_tree_view" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_milestone_status_form_view_user" model="ir.ui.view">
+			<field name="name">project.milestone.status.form.view.user</field>
+			<field name="model">project.milestone.status</field>
+			<field name="inherit_id"
+				ref="project_extension.project_milestone_status_form_view" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_milestone_status_tree_view_director" model="ir.ui.view">
+			<field name="name">project.milestone.status.tree.view.director</field>
+			<field name="model">project.milestone.status</field>
+			<field name="inherit_id"
+				ref="project_extension.project_milestone_status_tree_view" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_milestone_status_form_view_director" model="ir.ui.view">
+			<field name="name">project.milestone.status.form.view.director</field>
+			<field name="model">project.milestone.status</field>
+			<field name="inherit_id"
+				ref="project_extension.project_milestone_status_form_view" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_tree_view_user" model="ir.ui.view">
+			<field name="name">project.tree.view.user</field>
+			<field name="model">project.project</field>
+			<field name="inherit_id" ref="project.view_project" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_executive')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_project_form_view_user" model="ir.ui.view">
+			<field name="name">project.form.view.user</field>
+			<field name="model">project.project</field>
+			<field name="inherit_id" ref="project.edit_project" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_executive')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_tree_view_director" model="ir.ui.view">
+			<field name="name">project.tree.view.director</field>
+			<field name="model">project.project</field>
+			<field name="inherit_id" ref="project.view_project" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_create_project'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_project_form_view_director" model="ir.ui.view">
+			<field name="name">project.form.view.director</field>
+			<field name="model">project.project</field>
+			<field name="inherit_id" ref="project.edit_project" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_create_project'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<!-- <record id="project_tags_tree_user" model="ir.ui.view"> -->
+		<!-- <field name="name">project.tags.tree.view.user</field> -->
+		<!-- <field name="model">project.tags</field> -->
+		<!-- <field name="inherit_id" ref="project.task_type_tree" /> -->
+		<!-- <field name="groups_id" eval="[(4, ref('group_project_user')),(4, 
+			ref('group_project_admin')),(4, ref('project.group_project_manager'))]" /> -->
+		<!-- <field name="arch" type="xml"> -->
+		<!-- <data> -->
+		<!-- <xpath expr='//tree' position="attributes"> -->
+		<!-- <attribute name="create">false</attribute> -->
+		<!-- <attribute name="edit">false</attribute> -->
+		<!-- <attribute name="delete">false</attribute> -->
+		<!-- </xpath> -->
+		<!-- </data> -->
+		<!-- </field> -->
+		<!-- </record> -->
+
+		<record id="project_tags_form_view_user" model="ir.ui.view">
+			<field name="name">project.tags.form.view.user</field>
+			<field name="model">project.tags</field>
+			<field name="inherit_id" ref="project.project_tags_form_view" />
+			<field name="groups_id" eval="[(4, ref('group_project_user'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_tags_form_view_admin" model="ir.ui.view">
+			<field name="name">project.tags.form.view.admin</field>
+			<field name="model">project.tags</field>
+			<field name="inherit_id" ref="project.project_tags_form_view" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_tags_form_view_director" model="ir.ui.view">
+			<field name="name">project.tags.form.view.director</field>
+			<field name="model">project.tags</field>
+			<field name="inherit_id" ref="project.project_tags_form_view" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_document_tree_user" model="ir.ui.view">
+			<field name="name">project.document.tree.view.user</field>
+			<field name="model">ir.attachment</field>
+			<field name="inherit_id" ref="project_extension.document_menu_view_tree" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_executive')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_document_form_view_user" model="ir.ui.view">
+			<field name="name">project.document.form.view.user</field>
+			<field name="model">ir.attachment</field>
+			<field name="inherit_id" ref="project_extension.document_menu_view_form" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_executive')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_document_tree_director" model="ir.ui.view">
+			<field name="name">project.document.tree.view.director</field>
+			<field name="model">ir.attachment</field>
+			<field name="inherit_id" ref="project_extension.document_menu_view_tree" />
+			<field name="priority">50</field>
+			<field name="groups_id" eval="[(4, ref('group_project_director'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_document_form_view_director" model="ir.ui.view">
+			<field name="name">project.document.form.view.director</field>
+			<field name="model">ir.attachment</field>
+			<field name="inherit_id" ref="project_extension.document_menu_view_form" />
+			<field name="priority">50</field>
+			<field name="groups_id" eval="[(4, ref('group_project_director'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_deadline_tree_user" model="ir.ui.view">
+			<field name="name">project.task.deadline.tree.view.user</field>
+			<field name="model">task.deadline</field>
+			<field name="inherit_id"
+				ref="project_task_deadline_approval.task_deadline_tree_view" />
+			<field name="groups_id" eval="[(4, ref('group_project_user'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_deadline_tree_admin" model="ir.ui.view">
+			<field name="name">project.task.deadline.tree.view.admin</field>
+			<field name="model">task.deadline</field>
+			<field name="inherit_id"
+				ref="project_task_deadline_approval.task_deadline_tree_view" />
+			<field name="priority">40</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_deadline_form_view_user" model="ir.ui.view">
+			<field name="name">project.task.deadline.form.view.user</field>
+			<field name="model">task.deadline</field>
+			<field name="inherit_id"
+				ref="project_task_deadline_approval.task_deadline_form_view" />
+			<field name="groups_id" eval="[(4, ref('group_project_user'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_deadline_tree_director" model="ir.ui.view">
+			<field name="name">project.task.deadline.tree.view.director</field>
+			<field name="model">task.deadline</field>
+			<field name="inherit_id"
+				ref="project_task_deadline_approval.task_deadline_tree_view" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_deadline_form_view_director" model="ir.ui.view">
+			<field name="name">project.task.deadline.form.view.director</field>
+			<field name="model">task.deadline</field>
+			<field name="inherit_id"
+				ref="project_task_deadline_approval.task_deadline_form_view" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_task_deadline_form_view_admin" model="ir.ui.view">
+			<field name="name">project.task.deadline.form.view.admin</field>
+			<field name="model">task.deadline</field>
+			<field name="inherit_id"
+				ref="project_task_deadline_approval.task_deadline_form_view" />
+			<field name="priority">40</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_team_role_tree_view_user" model="ir.ui.view">
+			<field name="name">project.team.role.tree.view.user</field>
+			<field name="model">project.team.role</field>
+			<field name="inherit_id" ref="project_team_role.project_team_role_tree_view" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_team_role_form_view_user" model="ir.ui.view">
+			<field name="name">project.team.role.form.view.user</field>
+			<field name="model">project.team.role</field>
+			<field name="inherit_id" ref="project_team_role.project_team_role_form_view" />
+			<field name="groups_id"
+				eval="[(4, ref('group_project_user')),(4, ref('group_project_admin')),(4, ref('project.group_project_manager'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">false</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">false</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_team_role_tree_view_director" model="ir.ui.view">
+			<field name="name">project.team.role.tree.view.director</field>
+			<field name="model">project.team.role</field>
+			<field name="inherit_id" ref="project_team_role.project_team_role_tree_view" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//tree' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">true</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="project_team_role_form_view_director" model="ir.ui.view">
+			<field name="name">project.team.role.form.view.director</field>
+			<field name="model">project.team.role</field>
+			<field name="inherit_id" ref="project_team_role.project_team_role_form_view" />
+			<field name="priority">50</field>
+			<field name="groups_id"
+				eval="[(4, ref('group_project_director')),(4, ref('group_project_executive'))]" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr='//form' position="attributes">
+						<attribute name="create">true</attribute>
+						<attribute name="edit">false</attribute>
+						<attribute name="delete">true</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+	</data>
+</odoo>

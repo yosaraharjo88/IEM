@@ -1,0 +1,38 @@
+<odoo>
+    <data>
+        <record id="project_task_form_inherit" model="ir.ui.view">
+            <field name="name">project.task.form.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//notebook" position="inside">
+            		<page name="page_documents" string="Documents">
+            			<field name="is_approve_visible" invisible="1"/>
+            			<field name="document_ids" attrs="{'readonly': [('is_approve_visible', '=', False)]}">
+            				<tree>
+            					<field name="name" string="Document Name"/>
+            					<field name="description"/>
+            					<field name="datas"/>
+            					<field name="owner" string="Upload By"/>
+            					<field name="date_create" string="Upload Date"/>
+            					<field name="state" />
+            					<field name="approve_date" />
+            				</tree>
+            			</field>
+            		</page>
+            	</xpath>
+            </field>
+        </record>
+
+        <record id="project_task_form_inherit_doc_approve" model="ir.ui.view">
+            <field name="name">project.task.form.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project_extension.project_task_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button string="Complete" type="object" name="action_completed" attrs="{'invisible': [('state', 'not in', ['in_progress','on_hold'])]}" class="oe_highlight"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

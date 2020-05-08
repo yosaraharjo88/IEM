@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="s_curve_button_ext_js" name="S Curve Button Ext Js" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/css"
+                  href="/project_management_report/static/src/css/select2.min.css"/>
+            <link rel="stylesheet" type="text/css"
+                  href="/project_management_report/static/src/css/project_progress_report.css"/>
+
+            <script type="text/javascript"
+                    src="/project_management_report/static/src/lib/select2.min.js"></script>
+            <script type="text/javascript"
+                    src="/project_management_report/static/src/lib/loader.js"></script>
+            <script type="text/javascript"
+                    src="/project_management_report/static/src/js/project_progress_table.js"></script>
+            <script type="text/javascript"
+                    src="/project_management_report/static/src/js/project_progress_graph.js"></script>
+            <script type="text/javascript"
+                    src="/project_management_report/static/src/js/scurve_comparison.js"></script>
+        </xpath>
+    </template>
+</odoo>

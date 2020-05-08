@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+      <!--Tree view-->
+      <record model="ir.ui.view" id="project_stage_project_tree_view">
+          <field name="name">project.stage.project.tree</field>
+          <field name="model">project.stage.project</field>
+          <field name="arch" type="xml">
+              <tree editable="top">
+                  <field name="project_id"/>
+                  <field name="type_id" attrs="{'invisible': [('project_id', '=', False)]}"/>
+                  <field name="stage_weightage"/>
+                  <field name="stage_completion"/>
+              </tree>
+          </field>
+      </record>
+
+      <!--Action-->
+      <record model="ir.actions.act_window" id="document_action">
+          <field name="name">Project Tasks</field>
+          <field name="res_model">project.stage.project</field>
+          <field name="view_mode">tree,form</field>
+      </record>
+
+  </data>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="project_budget_table_template" name="Project Budget Table Template" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript"
+                    src="project_budget_scurve_report/static/src/js/project_budget_buttons_table.js"></script>
+            <script type="text/javascript"
+                    src="/project_budget_scurve_report/static/src/js/project_budget_table.js"></script>
+            <script type="text/javascript"
+                    src="project_budget_scurve_report/static/src/js/project_budget_graph.js"></script>
+            <script type="text/javascript"
+                    src="project_budget_scurve_report/static/src/js/project_budget_buttons_graph.js"></script>
+            <script type="text/javascript"
+                    src="project_budget_scurve_report/static/src/js/scurve_comparison_budget.js"></script>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,51 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+
+        <record id="view_project_task_report_table" model="ir.ui.view">
+            <field name="name">project.task.report.table</field>
+            <field name="model">project.task</field>
+            <field name="type">project_progress_table</field>
+            <field name="arch" type="xml">
+                <project_progress_table>
+
+                </project_progress_table>
+            </field>
+        </record>
+
+        <record id="view_project_task_report_graph" model="ir.ui.view">
+            <field name="name">project.task.report.graph</field>
+            <field name="model">project.task</field>
+            <field name="type">projectprogressgraph</field>
+            <field name="arch" type="xml">
+                <projectprogressgraph>
+
+                </projectprogressgraph>
+            </field>
+        </record>
+
+        <record id="view_project_task_scurve_comparison" model="ir.ui.view">
+            <field name="name">view..project.task.scurve.comparison</field>
+            <field name="model">project.task</field>
+            <field name="type">scurvecomparison</field>
+            <field name="arch" type="xml">
+                <scurvecomparison>
+
+                </scurvecomparison>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record id="project.act_project_project_2_project_task_all" model="ir.actions.act_window">
+            <field name="view_mode">kanban,tree,form,calendar,pivot,graph,ganttaps,scurvecomparison</field>
+        </record>
+        <record id="project_progress_report-action" model="ir.actions.act_window">
+            <field name="name">Project Progress Report</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">project_progress_table,projectprogressgraph</field>
+        </record>
+
+        <menuitem id="project_progress_report-menu_item" name="Project Progress Report" parent="project.menu_project_report"
+                  action="project_progress_report-action" sequence="99"/>
+    </data>
+</odoo>

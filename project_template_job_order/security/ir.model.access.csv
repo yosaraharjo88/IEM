@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_template_manager,access_project_template_manager,model_project_template,project.group_project_manager,1,1,1,1
+access_project_template_user,access_project_template_user,model_project_template,,1,0,0,0
+access_project_template_task_manager,access_project_template_task_manager,model_project_template_task,project.group_project_manager,1,1,1,1
+access_project_template_task_user,access_project_template_task_user,model_project_template_task,,1,0,0,0
+access_task_template_manager,access_task_template_manager,model_task_template,project.group_project_manager,1,1,1,1
+access_task_template_user,access_task_template_user,model_task_template,,1,0,0,0
+access_project_task2_manager,access_project_task2_manager,model_project_task2,project.group_project_manager,1,1,1,1
+access_project_task2_user,access_project_task2_user,model_project_task2,,1,0,0,0

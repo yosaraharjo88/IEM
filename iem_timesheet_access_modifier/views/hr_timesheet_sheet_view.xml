@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_all_timesheet_sheet_form_iem_access_modifier" model="ir.ui.view">
+        <field name="name">Hr All Timesheet Sheet Form Iem Access Modifier</field>
+        <field name="model">hr_timesheet_sheet.sheet</field>
+        <field name="inherit_id" ref="std_timesheet_access_rights.hr_all_timesheet_sheet_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/header" position="replace">
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="oe_highlight" attrs="{'invisible': [('state2', '=', 'confirm')]}"/>
+                    <field name="state2" widget="statusbar" statusbar_visible="draft,confirm"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,confirm,done" invisible="1"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

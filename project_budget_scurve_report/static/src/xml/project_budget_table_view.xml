@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+    <t t-name="ProjectBudgetView">
+        <div class="projectbudgettable-view" t-att-data-id="widget.id"></div>
+        <div id="project_report_bg_color"></div>
+    </t>
+    <t t-name="ProjectBudgetView.main">
+        <div class="projectbudgettable-container">
+        </div>
+    </t>
+</templates>

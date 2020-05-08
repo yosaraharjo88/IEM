@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+
+    <t t-name="ProjectProgressTableView">
+        <div class="projectprogresstable-view" t-att-data-id="widget.id">
+
+        </div>
+
+            <div id="project_report_bg_color">
+
+            </div>
+
+    </t>
+
+    <t t-name="ProjectProgressTableView.main">
+        <div class="projectprogresstable-container">
+        </div>
+    </t>
+
+    <t t-name="ProjectProgressTableView.buttons">
+        <div class="btn-group btn-group-sm" style="width: auto;">
+
+            <select id='selUser' style="width: auto;">
+                <option id="option_project" value="0">-- Select Project --</option>
+            </select>
+        </div>
+
+        <div class="btn-group btn-group-sm">
+            <input class="btn btn-primary btn-sm" value="Select Project" type="button" id='but_read'/>
+        </div>
+    </t>
+
+    <t t-name="project_lists">
+        <option t-att-value="project_line.id">
+            <t t-esc="project_line.name"/>
+        </option>
+    </t>
+
+</templates>
